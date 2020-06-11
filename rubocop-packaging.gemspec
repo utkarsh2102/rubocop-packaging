@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
     Ruby code.
   DESCRIPTION
 
-  spec.metadata['homepage_uri'   ] = spec.homepage
+  spec.metadata['homepage_uri']    = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/utkarsh2102/rubocop-packaging'
 
   spec.files         = Dir['lib/**/*', 'LICENSE', 'README.md']
