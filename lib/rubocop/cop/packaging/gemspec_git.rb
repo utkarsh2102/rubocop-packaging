@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# TODO: when finished, run `rake generate_cops_documentation` to update the docs
 module RuboCop
   module Cop
     module Packaging
@@ -39,22 +38,31 @@ module RuboCop
       #   good_foo_method(args)
       #
       class GemspecGit < Cop
-        # TODO: Implement the cop in here.
-        #
-        # In many cases, you can use a node matcher for matching node pattern.
-        # See https://github.com/rubocop-hq/rubocop-ast/blob/master/lib/rubocop/node_pattern.rb
-        #
-        # For example
-        MSG = 'Use `#good_method` instead of `#bad_method`.'
+        MSG = "Don't use git."\
+              "It's a problem while maintaining it downstream."\
+              "Rather use some pure Ruby alternative, like `Dir` or `Dir.glob`"
 
-        def_node_matcher :bad_method?, <<~PATTERN
-          (send nil? :bad_method ...)
+        def_node_search :xstr, <<~PATTERN
+          (block
+            (send
+              (const
+                (const {cbase nil?} :Gem) :Specification) :new)
+            (args
+              (arg _)) `$(xstr (str #starts_with_git?)))
         PATTERN
 
-        def on_send(node)
-          return unless bad_method?(node)
+        def investigate(processed_source)
+          xstr(processed_source.ast).each do |node|
+            add_offense(
+              processed_source.ast,
+              location: node.loc.expression,
+              message: MSG
+            )
+          end
+        end
 
-          add_offense(node)
+        def starts_with_git?(str)
+          str.start_with?('git')
         end
       end
     end
