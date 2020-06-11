@@ -1,2 +1,7 @@
 # This is the default configuration file.
 # Write it!
+
+Packaging/GemspecGit:
+  Description: 'TODO: Write a description of the cop.'
+  Enabled: pending
+  VersionAdded: '0.86'
