@@ -5,11 +5,7 @@ RSpec.describe RuboCop::Cop::Packaging::GemspecGit do
 
   let(:config) { RuboCop::Config.new }
 
-  def message
-    "Don't use git."\
-    "It's a problem while maintaining it downstream."\
-    "Rather use some pure Ruby alternative, like `Dir` or `Dir.glob`"
-  end
+  let(:message) { RuboCop::Cop::Packaging::GemspecGit::MSG }
 
   it 'registers an offense when using `git` for :files=' do
     expect_offense(<<~RUBY)
