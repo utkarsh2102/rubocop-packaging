@@ -41,7 +41,7 @@ module RuboCop
         MSG = 'Avoid using git to produce lists of files. ' \
           'Downstreams often need to build your package in an environment ' \
           'that does not have git (on purpose). ' \
-          'Use some pure Ruby alternative, like `Dir` or `Dir.glob`'
+          'Use some pure Ruby alternative, like `Dir` or `Dir.glob`.'
 
         def_node_search :xstr, <<~PATTERN
           (block

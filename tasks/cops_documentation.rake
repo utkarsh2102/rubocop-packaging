@@ -15,6 +15,7 @@ task generate_cops_documentation: :yard_for_generate_documentation do
     cops.with_department(department).sort!
   end
 
+  # rubocop:disable Metrics/AbcSize
   def cops_body(config, cop, description, examples_objects, pars)
     content = h2(cop.cop_name)
     content << required_ruby_version(cop)
@@ -25,6 +26,7 @@ task generate_cops_documentation: :yard_for_generate_documentation do
     content << references(config, cop)
     content
   end
+  # rubocop:enable Metrics/AbcSize
 
   def examples(examples_object)
     examples_object.each_with_object(h3('Examples').dup) do |example, content|
@@ -40,7 +42,6 @@ task generate_cops_documentation: :yard_for_generate_documentation do
     "NOTE: Required Ruby version: #{cop.required_minimum_ruby_version}\n\n"
   end
 
-  # rubocop:disable Metrics/MethodLength
   def properties(cop_instance)
     header = [
       'Enabled by default', 'Safe', 'Supports autocorrection', 'VersionAdded',
@@ -61,7 +62,6 @@ task generate_cops_documentation: :yard_for_generate_documentation do
     ]]
     to_table(header, content) + "\n"
   end
-  # rubocop:enable Metrics/MethodLength
 
   def h2(title)
     content = +"\n"
@@ -108,7 +108,7 @@ task generate_cops_documentation: :yard_for_generate_documentation do
     h3('Configurable attributes') + to_table(header, content)
   end
 
-  # rubocop:disable Metrics/CyclomaticComplexity,Metrics/MethodLength
+  # rubocop:disable Metrics/CyclomaticComplexity
   def configurable_values(pars, name)
     case name
     when /^Enforced/
@@ -133,7 +133,7 @@ task generate_cops_documentation: :yard_for_generate_documentation do
       end
     end
   end
-  # rubocop:enable Metrics/CyclomaticComplexity,Metrics/MethodLength
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def to_table(header, content)
     table = [

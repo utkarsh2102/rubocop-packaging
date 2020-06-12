@@ -3,6 +3,31 @@
 require:
   - rubocop-packaging
 
+AllCops:
+  NewCops: enable
+  Exclude:
+    - '.bundle/**/*'
+    - 'spec/fixtures/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+  TargetRubyVersion: 2.4
+
 Naming/FileName:
- Exclude:
-   - lib/rubocop-packaging.rb
+  Exclude:
+    - lib/rubocop-packaging.rb
+
+Metrics/BlockLength:
+  Exclude:
+    - tasks/*.rake
+  ExcludedMethods:
+    - configure
+    - describe
+    - context
+    - shared_examples
+
+Metrics/MethodLength:
+  Exclude:
+    - tasks/*.rake
+
+Layout/LineLength:
+  Max: 120
