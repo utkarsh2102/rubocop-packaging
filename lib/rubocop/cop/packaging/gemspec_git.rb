@@ -1,43 +1,57 @@
 # frozen_string_literal: true
 
+# Rubocop module
 module RuboCop
+  # Cop module
   module Cop
+    # Packaging module
     module Packaging
-      # TODO: Write cop description and example of bad / good code. For every
-      # `SupportedStyle` and unique configuration, there needs to be examples.
-      # Examples must have valid Ruby syntax. Do not use upticks.
+      # This cop is used to identify the usage of `git ls-files`
+      # and suggests to use a plain Ruby alternative, like `Dir`,
+      # `Dir.glob` or `Rake::FileList` instead.
       #
-      # @example EnforcedStyle: bar (default)
-      #   # Description of the `bar` style.
-      #
-      #   # bad
-      #   bad_bar_method
+      # @example
       #
       #   # bad
-      #   bad_bar_method(args)
-      #
-      #   # good
-      #   good_bar_method
-      #
-      #   # good
-      #   good_bar_method(args)
-      #
-      # @example EnforcedStyle: foo
-      #   # Description of the `foo` style.
+      #   Gem::Specification.new do |spec|
+      #     spec.files = `git ls-files`.split('\n')
+      #   end
       #
       #   # bad
-      #   bad_foo_method
+      #   Gem::Specification.new do |spec|
+      #     spec.files = Dir.chdir(File.expand_path('..', __FILE__)) do
+      #       `git ls-files -z`.split('\\x0').reject { |f| f.match(%r{^(test|spec|features)/}) }
+      #     end
+      #   end
       #
       #   # bad
-      #   bad_foo_method(args)
+      #   Gem::Specification.new do |spec|
+      #     spec.files         = `git ls-files`.split('\n')
+      #     spec.test_files    = `git ls-files -- test/{functional,unit}/*`.split('\n')
+      #     spec.executables   = `git ls-files -- bin/*`.split('\n').map{ |f| File.basename(f) }
+      #   end
       #
       #   # good
-      #   good_foo_method
+      #   Gem::Specification.new do |spec|
+      #     spec.files         = Dir['lib/**/*', 'LICENSE', 'README.md']
+      #     spec.test_files    = Dir['spec/**/*']
+      #   end
       #
       #   # good
-      #   good_foo_method(args)
+      #   Gem::Specification.new do |spec|
+      #     spec.files         = Rake::FileList['**/*'].exclude(*File.read('.gitignore').split)
+      #   end
+      #
+      #   # good
+      #   Gem::Specification.new do |spec|
+      #     spec.files         = Dir.glob('lib/**/*')
+      #     spec.test_files    = Dir.glob('test/{functional,test}/*')
+      #     spec.executables   = Dir.glob('bin/*').map{ |f| File.basename(f) }
+      #   end
       #
       class GemspecGit < Cop
+        # This is the message that will be displayed when RuboCop finds an
+        # offense of using `git ls-files`.
         MSG = 'Avoid using git to produce lists of files. ' \
           'Downstreams often need to build your package in an environment ' \
           'that does not have git (on purpose). ' \
@@ -52,6 +66,11 @@ module RuboCop
               (arg _)) `$(xstr (str #starts_with_git?)))
         PATTERN
 
+        # Extended from the Cop class.
+        # More about the `#investigate` method can be found here:
+        # https://github.com/rubocop-hq/rubocop/blob/master/lib/rubocop/cop/cop.rb
+        #
+        # Processing of the AST happens here.
         def investigate(processed_source)
           xstr(processed_source.ast).each do |node|
             add_offense(
@@ -62,6 +81,8 @@ module RuboCop
           end
         end
 
+        # This method is called from inside `#def_node_search`.
+        # It is used to find strings which starts with 'git'.
         def starts_with_git?(str)
           str.start_with?('git')
         end
