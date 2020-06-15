@@ -1,0 +1,22 @@
+= Installation
+
+Add this line to your application's Gemfile:
+
+[source,ruby]
+----
+gem 'rubocop-packaging', require: false
+----
+
+And then execute:
+
+[source,bash]
+----
+$ bundle install
+----
+
+Or install it yourself as:
+
+[source,bash]
+----
+$ gem install rubocop-packaging
+----
