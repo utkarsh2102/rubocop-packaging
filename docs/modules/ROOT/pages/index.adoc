@@ -3,8 +3,8 @@
 `RuboCop::Packaging` is an extension of [RuboCop](https://rubocop.org/),
 which is a Ruby static code analyzer (a.k.a. linter) and code formatter.
 
-It contains a set of Cops which enforces some of the guidelines that
-are expected of upstream maintainers so that the downstream can build
-their packages in a clean environment without any problems.
+It helps enforcing some of the guidelines that are expected of upstream
+maintainers so that the downstream can build their packages in a clean
+environment without any problems.  
 Some of the other basic guidelines can be found
 [here](https://wiki.debian.org/Teams/Ruby/RubyExtras/UpstreamDevelopers).

@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
-# Rubocop module
-module RuboCop
-  # Cop module
-  module Cop
-    # Packaging module
-    module Packaging
+module RuboCop # :nodoc:
+  module Cop # :nodoc:
+    module Packaging # :nodoc:
       # This cop is used to identify the usage of `git ls-files`
       # and suggests to use a plain Ruby alternative, like `Dir`,
       # `Dir.glob` or `Rake::FileList` instead.
@@ -68,7 +65,7 @@ module RuboCop
 
         # Extended from the Cop class.
         # More about the `#investigate` method can be found here:
-        # https://github.com/rubocop-hq/rubocop/blob/master/lib/rubocop/cop/cop.rb
+        # https://github.com/rubocop-hq/rubocop/blob/59543c8e2b66bff249de131fa9105f3eb11e9edb/lib/rubocop/cop/cop.rb#L13-L25
         #
         # Processing of the AST happens here.
         def investigate(processed_source)
