@@ -82,7 +82,7 @@ module RuboCop
         end
 
         # This method is called from inside `#def_node_search`.
-        # It is used to find strings which starts with 'git'.
+        # It is used to find strings which start with 'git'.
         def starts_with_git?(str)
           str.start_with?('git')
         end
