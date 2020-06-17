@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.metadata['homepage_uri']    = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/utkarsh2102/rubocop-packaging'
 
-  spec.files         = Dir['lib/**/*', 'LICENSE', 'README.md']
+  spec.files         = Dir['config/default.yml', 'lib/**/*', 'LICENSE', 'README.md']
   spec.require_paths = ['lib']
 
   spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
