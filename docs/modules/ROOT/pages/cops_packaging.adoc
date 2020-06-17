@@ -1,0 +1,59 @@
+= Packaging
+
+== Packaging/GemspecGit
+
+|===
+| Enabled by default | Safe | Supports autocorrection | VersionAdded | VersionChanged
+
+| Enabled
+| Yes
+| No
+| 0.86
+| -
+|===
+
+This cop is used to identify the usage of `git ls-files`
+and suggests to use a plain Ruby alternative, like `Dir`,
+`Dir.glob` or `Rake::FileList` instead.
+
+=== Examples
+
+[source,ruby]
+----
+# bad
+Gem::Specification.new do |spec|
+  spec.files = `git ls-files`.split('\n')
+end
+
+# bad
+Gem::Specification.new do |spec|
+  spec.files = Dir.chdir(File.expand_path('..', __FILE__)) do
+    `git ls-files -z`.split('\\x0').reject { |f| f.match(%r{^(test|spec|features)/}) }
+  end
+end
+
+# bad
+Gem::Specification.new do |spec|
+  spec.files         = `git ls-files`.split('\n')
+  spec.test_files    = `git ls-files -- test/{functional,unit}/*`.split('\n')
+  spec.executables   = `git ls-files -- bin/*`.split('\n').map{ |f| File.basename(f) }
+end
+
+# good
+Gem::Specification.new do |spec|
+  spec.files         = Dir['lib/**/*', 'LICENSE', 'README.md']
+  spec.test_files    = Dir['spec/**/*']
+end
+
+# good
+Gem::Specification.new do |spec|
+  spec.files         = Rake::FileList['**/*'].exclude(*File.read('.gitignore').split)
+end
+
+# good
+Gem::Specification.new do |spec|
+  spec.files         = Dir.glob('lib/**/*')
+  spec.test_files    = Dir.glob('test/{functional,test}/*')
+  spec.executables   = Dir.glob('bin/*').map{ |f| File.basename(f) }
+end
+----

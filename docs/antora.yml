@@ -1,0 +1,5 @@
+name: rubocop-packaging
+title: RuboCop Packaging
+version: master
+nav:
+  - modules/ROOT/nav.adoc

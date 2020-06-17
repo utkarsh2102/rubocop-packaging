@@ -1,40 +1,86 @@
 # RuboCop::Packaging
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rubocop/packaging`. To experiment with that code, run `bin/console` for an interactive prompt.
+`RuboCop::Packaging` is an extension of [RuboCop](https://rubocop.org/),
+which is a Ruby static code analyzer (a.k.a. linter) and code formatter.
 
-TODO: Delete this and the text above, and describe your gem
+It helps enforcing some of the guidelines that are expected of upstream
+maintainers so that the downstream can build their packages in a clean
+environment without any problems.  
+Some of the other basic guidelines can be found
+[here](https://wiki.debian.org/Teams/Ruby/RubyExtras/UpstreamDevelopers).
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rubocop-packaging', require: false
+gem 'rubocop-packaging'
 ```
 
 And then execute:
 
-    $ bundle install
+```bash
+$ bundle install
+```
 
 Or install it yourself as:
 
-    $ gem install rubocop-packaging
+```bash
+$ gem install rubocop-packaging
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+You need to tell RuboCop to load the Packaging extension. There are three
+ways to do this:
+
+### RuboCop configuration file
+
+Put this into your `.rubocop.yml` file:
+
+```yaml
+require: rubocop-packaging
+```
+
+Alternatively, use the following array notation when specifying multiple
+extensions:
+
+```yaml
+require:
+  - rubocop-other-extension
+  - rubocop-packaging
+```
+
+Now you can run `rubocop` and it will automatically load the RuboCop Packaging
+cops together with the standard cops.
+
+### Command line
+
+```bash
+rubocop --require rubocop-packaging
+```
+
+### Rake task
+
+```ruby
+RuboCop::RakeTask.new do |task|
+  task.requires << 'rubocop-packaging'
+end
+```
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies. Then,
+run `rake spec` to run the tests. You can also run `bin/console` for an
+interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rubocop-packaging. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/rubocop-packaging/blob/master/CODE_OF_CONDUCT.md).
+As always, bug reports and pull requests are heartily welcomed! 💖  
+This project is intended to be a safe and welcoming space for collaboration.
 
-
-## Code of Conduct
-
-Everyone interacting in the RuboCop::Packaging project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/rubocop-packaging/blob/master/CODE_OF_CONDUCT.md).
+## License
+`rubocop-packaging` is available as open-source under the
+[MIT License](https://github.com/utkarsh2102/rubocop-packaging/blob/master/LICENSE).

@@ -1,6 +1,6 @@
 # This is the default configuration file.
 
 Packaging/GemspecGit:
-  Description: 'Use pure Ruby alternative instead of `git ls-files`'
+  Description: 'Use pure Ruby alternative instead of `git ls-files`.'
   Enabled: true
   VersionAdded: '0.86'

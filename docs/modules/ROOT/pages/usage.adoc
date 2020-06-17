@@ -1,0 +1,42 @@
+= Usage
+
+You need to tell RuboCop to load the Packaging extension. There are three
+ways to do this:
+
+== RuboCop configuration file
+
+Put this into your `.rubocop.yml` file:
+
+[source,yaml]
+----
+require: rubocop-packaging  
+----
+
+Alternatively, use the following array notation when specifying multiple
+extensions:
+
+[source,yaml]
+----
+require:
+  - rubocop-other-extension
+  - rubocop-packaging
+----
+
+Now you can run `rubocop` and it will automatically load the RuboCop Packaging  
+cops together with the standard cops.
+
+== Command line
+
+[source,bash]
+----
+rubocop --require rubocop-packaging
+----
+
+== Rake task
+
+[source,ruby]
+----
+RuboCop::RakeTask.new do |task|
+  task.requires << 'rubocop-packaging'
+end
+----

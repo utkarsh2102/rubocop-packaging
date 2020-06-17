@@ -187,7 +187,7 @@ task generate_cops_documentation: :yard_for_generate_documentation do
   # rubocop:disable Metrics/AbcSize
   def print_cops_of_department(cops, department, config)
     selected_cops = cops_of_department(cops, department).select do |cop|
-      cop.to_s.start_with?('RuboCop::Cop::Performance')
+      cop.to_s.start_with?('RuboCop::Cop::Packaging')
     end
     return if selected_cops.empty?
 
@@ -231,7 +231,7 @@ task generate_cops_documentation: :yard_for_generate_documentation do
   # rubocop:disable Metrics/AbcSize
   def table_of_content_for_department(cops, department)
     selected_cops = cops_of_department(cops, department.to_sym).select do |cop|
-      cop.to_s.start_with?('RuboCop::Cop::Performance')
+      cop.to_s.start_with?('RuboCop::Cop::Packaging')
     end
     return if selected_cops.empty?
 
