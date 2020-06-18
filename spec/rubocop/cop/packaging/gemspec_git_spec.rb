@@ -16,6 +16,15 @@ RSpec.describe RuboCop::Cop::Packaging::GemspecGit do
     RUBY
   end
 
+  it 'registers an offense when using `git ls-files filename` for :files=' do
+    expect_offense(<<~RUBY)
+      Gem::Specification.new do |s|
+        s.files         = `git ls-files LICENSE docs lib`.split("\\n")
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #{message}
+      end
+    RUBY
+  end
+
   it 'registers an offense when using `git` for :files= but differently' do
     expect_offense(<<~RUBY)
       Gem::Specification.new do |spec|
@@ -63,6 +72,14 @@ RSpec.describe RuboCop::Cop::Packaging::GemspecGit do
   it 'does not register an offense not in a specification' do
     expect_no_offenses(<<~RUBY)
       spec.files = `git ls-files`
+    RUBY
+  end
+
+  it 'does not register an offense when not using `git` for :files=' do
+    expect_no_offenses(<<~RUBY)
+      Gem::Specification.new do |spec|
+        spec.files = Dir['docs/**/*', 'lib/**/*', 'LICENSE'].reject { |f| File.directory?(f) }.sort
+      end
     RUBY
   end
 end
