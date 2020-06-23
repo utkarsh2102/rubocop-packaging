@@ -14,9 +14,9 @@ module RuboCop # :nodoc:
         MSG = 'Avoid using `require` with relative path to lib.'
 
         def_node_matcher :require?, <<~PATTERN
-          {(send nil? :require (str #starts_with_relative_path?))
-           (send nil? :require (send (const nil? :File) :expand_path (str #starts_with_relative_path?) {(str _) (send nil? _)}))
-           (send nil? :require (send (send (const nil? :File) :dirname {(str _) (send nil? _)}) :+ (str #starts_with_relative_path?)))}
+          {(send nil? {:require :require_relative} (str #starts_with_relative_path?))
+           (send nil? {:require :require_relative} (send (const nil? :File) :expand_path (str #starts_with_relative_path?) {(str _) (send nil? _)}))
+           (send nil? {:require :require_relative} (send (send (const nil? :File) :dirname {(str _) (send nil? _)}) :+ (str #starts_with_relative_path?)))}
         PATTERN
 
         # Extended method.
