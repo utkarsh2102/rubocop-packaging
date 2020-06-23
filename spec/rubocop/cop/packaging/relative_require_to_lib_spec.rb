@@ -7,36 +7,87 @@ RSpec.describe RuboCop::Cop::Packaging::RelativeRequireToLib do
 
   let(:message) { RuboCop::Cop::Packaging::RelativeRequireToLib::MSG }
 
-  it 'registers an offense when using `require` with relative path to lib/whatever' do
+  let(:path) { './../..' }
+
+  it 'registers an offense when using `require` with relative path to rubocop' do
     expect_offense(<<~RUBY)
-      require '../lib/whatever'
-      ^^^^^^^^^^^^^^^^^^^^^^^^^ #{message}
+      require '../lib/rubocop'
+      ^^^^^^^^^^^^^^^^^^^^^^^^ #{message}
     RUBY
   end
 
-  it 'registers an offense when using `require` with relative path to lib/whatever/file' do
+  it 'registers an offense when using `require` with relative path to rubocop/file' do
     expect_offense(<<~RUBY)
-      require '../lib/whatever/file'
-      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #{message}
+      require '../lib/rubocop/file'
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #{message}
     RUBY
   end
 
-  it 'registers an offense when using `require` with relative path to lib/*' do
+  it 'registers an offense when using `require` with (more) relative path to rubocop' do
     expect_offense(<<~RUBY)
-      require '../lib/*'
-      ^^^^^^^^^^^^^^^^^^ #{message}
+      require '../../lib/rubocop'
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ #{message}
     RUBY
   end
 
-  it 'does not register an offense when using `require` with absoulte path to lib' do
+  it 'registers an offense when using `unshift` and `require` with relative path to file.rb' do
+    expect_offense(<<~RUBY)
+      $:.unshift('../lib')
+      require '../lib/file.rb'
+      ^^^^^^^^^^^^^^^^^^^^^^^^ #{message}
+    RUBY
+  end
+
+  it 'registers an offense when using `require` with a variable and a relative path' do
+    expect_offense(<<~RUBY)
+      require "#{path}/../lib/rubocop"
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #{message}
+    RUBY
+  end
+
+  it 'registers an offense when using `require` with `File.expand_path` and `__FILE__`' do
+    expect_offense(<<~RUBY)
+      require File.expand_path('../lib/rubocop', __FILE__)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #{message}
+    RUBY
+  end
+
+  it 'registers an offense when using `require` with `File.expand_path` and `__dir__`' do
+    expect_offense(<<~RUBY)
+      require File.expand_path('../lib/rubocop', __dir__)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #{message}
+    RUBY
+  end
+
+  it 'registers an offense when using `require` with `File.dirname` and `__FILE__`' do
+    expect_offense(<<~RUBY)
+      require File.dirname(__FILE__) + '/../lib/rubocop'
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #{message}
+    RUBY
+  end
+
+  it 'registers an offense when using `require` with `File.dirname` and `__dir__`' do
+    expect_offense(<<~RUBY)
+      require File.dirname(__dir__) + '/../lib/rubocop'
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ #{message}
+    RUBY
+  end
+
+  it 'does not register an offense when using `require` with absoulte path to file' do
     expect_no_offenses(<<~RUBY)
-      require 'whatever/file'
+      require 'file'
     RUBY
   end
 
-  it 'does not register an offense when using `require` with relative path to something else' do
+  it 'does not register an offense when using `require` with absolute path to spec dir' do
     expect_no_offenses(<<~RUBY)
-      require '../spec/whatever/file'
+      require 'spec/rubocop/file'
+    RUBY
+  end
+
+  it 'does not register an offense when using `require` with relative path to !lib' do
+    expect_no_offenses(<<~RUBY)
+      require '../spec/rubocop/file'
     RUBY
   end
 end
