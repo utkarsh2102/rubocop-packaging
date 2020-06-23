@@ -4,3 +4,8 @@ Packaging/GemspecGit:
   Description: 'Use pure Ruby alternative instead of `git ls-files`.'
   Enabled: true
   VersionAdded: '0.86'
+
+Packaging/RelativeRequireToLib:
+  Description: 'Avoid using `require` with relative path to lib.'
+  Enabled: true
+  VersionAdded: '0.86'
