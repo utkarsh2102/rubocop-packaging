@@ -69,6 +69,8 @@ module RuboCop # :nodoc:
         #
         # Processing of the AST happens here.
         def investigate(processed_source)
+          return if processed_source.blank?
+
           xstr(processed_source.ast).each do |node|
             add_offense(
               processed_source.ast,
