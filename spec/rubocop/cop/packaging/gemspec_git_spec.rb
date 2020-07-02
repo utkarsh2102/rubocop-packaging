@@ -69,6 +69,20 @@ RSpec.describe RuboCop::Cop::Packaging::GemspecGit do
     RUBY
   end
 
+  it 'does not register an offense when the file just has comments' do
+    expect_no_offenses(<<~RUBY)
+      # Dummy comments.
+      # Blank file.
+      # Copyright 2020, Utkarsh Gupta <utkarsh@debian.org>
+      # This is an important test.
+    RUBY
+  end
+
+  it 'does not register an offense when the file is empty/blank' do
+    expect_no_offenses(<<~RUBY)
+    RUBY
+  end
+
   it 'does not register an offense not in a specification' do
     expect_no_offenses(<<~RUBY)
       spec.files = `git ls-files`
