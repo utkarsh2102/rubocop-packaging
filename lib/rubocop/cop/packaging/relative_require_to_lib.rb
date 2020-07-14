@@ -34,16 +34,11 @@ module RuboCop # :nodoc:
         # This method is called from inside `#def_node_search`.
         # It is used to find the strings that uses relative path.
         def starts_with_relative_path?(str)
-          root_dir = get_root
+          root_dir = RuboCop::ConfigLoader.project_root
           relative_dir = File.expand_path(str, @file_directory)
           relative_dir.delete_prefix!(root_dir + '/')
           relative_dir.start_with?('lib')
           # str.match?(%r{.*\./lib/})
-        end
-
-        def get_root(*)
-          # FIXME
-          '/some'
         end
       end
     end

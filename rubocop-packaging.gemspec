@@ -23,10 +23,10 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
 
-  spec.add_development_dependency   'bump', '>= 0.8.0'
-  spec.add_development_dependency   'pry', '>= 0.13.0'
+  spec.add_development_dependency   'bump', '~> 0.8'
+  spec.add_development_dependency   'pry', '~> 0.13'
   spec.add_development_dependency   'rake', '~> 13.0'
   spec.add_development_dependency   'rspec', '~> 3.0'
   spec.add_development_dependency   'yard', '~> 0.9'
-  spec.add_runtime_dependency       'rubocop', '>= 0.75.0'
+  spec.add_runtime_dependency       'rubocop', '~> 0.88'
 end
