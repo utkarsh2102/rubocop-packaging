@@ -1,29 +1,16 @@
 # frozen_string_literal: true
 
-RSpec.describe RuboCop::Cop::Packaging::RelativeRequireToLib do
-  subject(:cop) { described_class.new(config) }
-
-  let(:config) { RuboCop::Config.new }
-
+RSpec.describe RuboCop::Cop::Packaging::RelativeRequireToLib, :config do
   let(:message) { RuboCop::Cop::Packaging::RelativeRequireToLib::MSG }
 
   let(:project_root) { RuboCop::ConfigLoader.project_root }
-
-  let(:processed_source) { parse_source(source) }
-
-  before do
-    expect(RuboCop::ConfigLoader).to receive(:project_root).and_return('/some').at_least(:once)
-    allow(processed_source.buffer)
-      .to receive(:name).and_return(filename)
-    _investigate(cop, processed_source)
-  end
 
   context 'when `require_relative` call lies outside spec/' do
     let(:filename) { "#{project_root}/spec/foo_spec.rb" }
     let(:source) { 'require_relative "../lib/foo.rb"' }
 
     it 'registers an offense' do
-      expect_offense(<<~RUBY)
+      expect_offense(<<~RUBY, filename)
         #{source}
         #{'^' * source.length} #{message}
       RUBY
@@ -35,7 +22,7 @@ RSpec.describe RuboCop::Cop::Packaging::RelativeRequireToLib do
     let(:source) { 'require_relative "../../../lib/bar"' }
 
     it 'registers an offense' do
-      expect_offense(<<~RUBY)
+      expect_offense(<<~RUBY, filename)
         #{source}
         #{'^' * source.length} #{message}
       RUBY
@@ -50,7 +37,7 @@ RSpec.describe RuboCop::Cop::Packaging::RelativeRequireToLib do
     RUBY
 
     it 'registers an offense' do
-      expect_offense(<<~RUBY)
+      expect_offense(<<~RUBY, filename)
         #{source}
         #{'^' * 37} #{message}
       RUBY
@@ -65,7 +52,7 @@ RSpec.describe RuboCop::Cop::Packaging::RelativeRequireToLib do
     RUBY
 
     it 'registers an offense' do
-      expect_offense(<<~RUBY)
+      expect_offense(<<~RUBY, filename)
         #{source}
         #{'^' * 29} #{message}
       RUBY
@@ -77,7 +64,7 @@ RSpec.describe RuboCop::Cop::Packaging::RelativeRequireToLib do
     let(:source) { 'require_relative "../lib/foo"' }
 
     it 'does not register an offense' do
-      expect_no_offenses(<<~RUBY)
+      expect_no_offenses(<<~RUBY, filename)
         #{source}
       RUBY
     end
@@ -88,7 +75,7 @@ RSpec.describe RuboCop::Cop::Packaging::RelativeRequireToLib do
     let(:source) { 'require_relative "../bar"' }
 
     it 'does not register an offense' do
-      expect_no_offenses(<<~RUBY)
+      expect_no_offenses(<<~RUBY, filename)
         #{source}
       RUBY
     end
@@ -99,7 +86,7 @@ RSpec.describe RuboCop::Cop::Packaging::RelativeRequireToLib do
     let(:source) { 'require_relative "spec/rubocop/qux.rb"' }
 
     it 'does not register an offense' do
-      expect_no_offenses(<<~RUBY)
+      expect_no_offenses(<<~RUBY, filename)
         #{source}
       RUBY
     end
