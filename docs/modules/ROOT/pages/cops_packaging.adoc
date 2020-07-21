@@ -57,3 +57,40 @@ Gem::Specification.new do |spec|
   spec.executables   = Dir.glob('bin/*').map{ |f| File.basename(f) }
 end
 ----
+
+== Packaging/RelativeRequireToLib
+
+|===
+| Enabled by default | Safe | Supports autocorrection | VersionAdded | VersionChanged
+
+| Enabled
+| Yes
+| No
+| 0.89
+| -
+|===
+
+This cop is used to identify the `require_relative` calls,
+mapping to the "lib" directory and suggests to use `require`
+instead.
+
+=== Examples
+
+[source,ruby]
+----
+# bad
+require_relative 'lib/foo.rb'
+
+# bad
+require_relative '../../lib/foo/bar'
+
+# good
+require 'foo.rb'
+
+# good
+require 'foo/bar'
+
+# good
+require_relative 'spec_helper'
+require_relative 'foo/bar'
+----

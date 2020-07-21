@@ -6,6 +6,6 @@ Packaging/GemspecGit:
   VersionAdded: '0.86'
 
 Packaging/RelativeRequireToLib:
-  Description: 'Avoid using `require` with relative path to lib.'
+  Description: 'Avoid using `require_relative` with relative path to lib.'
   Enabled: true
-  VersionAdded: '0.86'
+  VersionAdded: '0.89'

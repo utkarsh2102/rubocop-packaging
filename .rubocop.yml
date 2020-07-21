@@ -32,6 +32,3 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Exclude:
     - tasks/*.rake
-
-Layout/LineLength:
-  Max: 120
