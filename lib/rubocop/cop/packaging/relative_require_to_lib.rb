@@ -33,7 +33,7 @@ module RuboCop # :nodoc:
 
         def_node_matcher :require_relative, <<~PATTERN
           (send nil? :require_relative
-            (str #starts_with_relative_path?))
+            (str #target_falls_in_lib?))
         PATTERN
 
         # Extended from the Base class.
@@ -57,7 +57,7 @@ module RuboCop # :nodoc:
 
         # This method is called from inside `#def_node_matcher`.
         # It is used to find paths which starts with "lib".
-        def starts_with_relative_path?(str)
+        def target_falls_in_lib?(str)
           root_dir = RuboCop::ConfigLoader.project_root
           relative_dir = File.expand_path(str, @file_directory)
           relative_dir.delete_prefix!(root_dir + '/')
