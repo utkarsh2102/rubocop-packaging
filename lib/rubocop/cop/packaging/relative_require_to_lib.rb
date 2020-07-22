@@ -59,9 +59,7 @@ module RuboCop # :nodoc:
         # It is used to find paths which starts with "lib".
         def target_falls_in_lib?(str)
           root_dir = RuboCop::ConfigLoader.project_root
-          relative_dir = File.expand_path(str, @file_directory)
-          relative_dir.delete_prefix!(root_dir + '/')
-          relative_dir.start_with?('lib')
+          File.expand_path(str, @file_directory).start_with?(root_dir + '/lib')
         end
       end
     end
