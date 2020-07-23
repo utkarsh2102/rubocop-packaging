@@ -12,6 +12,10 @@ AllCops:
     - 'vendor/**/*'
   TargetRubyVersion: 2.4
 
+Packaging/RelativeRequireToLib:
+  Include:
+    - spec/**/*.rb
+
 Naming/FileName:
   Exclude:
     - lib/rubocop-packaging.rb
@@ -28,6 +32,3 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Exclude:
     - tasks/*.rake
-
-Layout/LineLength:
-  Max: 120
