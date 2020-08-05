@@ -15,6 +15,7 @@ RuboCop::RakeTask.new
 task default: %i[
   spec
   rubocop
+  generate_cops_documentation
 ]
 
 desc 'Generate a new cop with a template'
