@@ -59,6 +59,31 @@ RSpec.describe RuboCop::Cop::Packaging::RelativeRequireToLib, :config do
     end
   end
 
+  context 'when `require_relative` call is made from inside lib/' do
+    let(:filename) { "#{project_root}/lib/foo.rb" }
+    let(:source) { 'require_relative "../lib/bar"' }
+
+    it 'does not register an offense' do
+      expect_no_offenses(<<~RUBY, filename)
+        #{source}
+      RUBY
+    end
+  end
+
+  context 'when `require_relative` calls are made from inside lib/' do
+    let(:filename) { "#{project_root}/lib/foo/bar.rb" }
+    let(:source) { <<~RUBY.chomp }
+      require_relative '../baz'
+      require_relative 'foo/qux'
+    RUBY
+
+    it 'does not register an offense' do
+      expect_no_offenses(<<~RUBY, filename)
+        #{source}
+      RUBY
+    end
+  end
+
   context 'when the `require_relative` call to `lib` lies inside spec/' do
     let(:filename) { "#{project_root}/spec/rubocop/cop/foo_spec.rb" }
     let(:source) { 'require_relative "../lib/foo"' }
