@@ -33,7 +33,7 @@ module RuboCop # :nodoc:
 
         def_node_matcher :require_relative, <<~PATTERN
           (send nil? :require_relative
-            (str #target_falls_in_lib?))
+            (str #falls_in_lib?))
         PATTERN
 
         # Extended from the Base class.
@@ -55,11 +55,28 @@ module RuboCop # :nodoc:
           add_offense(node)
         end
 
+        # For determining the root directory of the project.
+        def root_dir
+          RuboCop::ConfigLoader.project_root
+        end
+
         # This method is called from inside `#def_node_matcher`.
-        # It is used to find paths which starts with "lib".
+        # It flags an offense if the `require_relative` call is made
+        # from anywhere except the "lib" directory.
+        def falls_in_lib?(str)
+          target_falls_in_lib?(str) && !inspected_file_falls_in_lib?
+        end
+
+        # This method determines if the `require_relative` call is made
+        # to the "lib" directory.
         def target_falls_in_lib?(str)
-          root_dir = RuboCop::ConfigLoader.project_root
           File.expand_path(str, @file_directory).start_with?("#{root_dir}/lib")
+        end
+
+        # This method determines if that call is made *from* the "lib"
+        # directory.
+        def inspected_file_falls_in_lib?
+          @file_path.start_with?("#{root_dir}/lib")
         end
       end
     end
