@@ -67,7 +67,7 @@ module RuboCop # :nodoc:
         # It flags an offense if the `require_relative` call is made
         # from anywhere except the "lib" directory.
         def falls_in_lib?(str)
-          target_falls_in_lib?(str) && !inspected_file_falls_in_lib?
+          target_falls_in_lib?(str) && !inspected_file_falls_in_lib? && !inspected_file_is_gemspec?
         end
 
         # This method determines if the `require_relative` call is made
@@ -76,10 +76,14 @@ module RuboCop # :nodoc:
           File.expand_path(str, @file_directory).start_with?("#{root_dir}/lib")
         end
 
-        # This method determines if that call is made *from* the "lib"
-        # directory.
+        # This method determines if that call is made *from* the "lib" directory.
         def inspected_file_falls_in_lib?
           @file_path.start_with?("#{root_dir}/lib")
+        end
+
+        # This method determines if that call is made *from* the "gemspec" file.
+        def inspected_file_is_gemspec?
+          @file_path.end_with?('gemspec')
         end
       end
     end
