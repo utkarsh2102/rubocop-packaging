@@ -11,6 +11,9 @@ RSpec.configure do |config|
   config.raise_on_warning = true
   config.fail_if_no_examples = true
 
+  # for running specs tagged with :focus
+  # config.filter_run_when_matching :focus
+
   config.order = :random
   Kernel.srand config.seed
 end
