@@ -70,6 +70,17 @@ RSpec.describe RuboCop::Cop::Packaging::RelativeRequireToLib, :config do
     end
   end
 
+  context 'when `require_relative` call is made from the gemspec file' do
+    let(:filename) { "#{project_root}/foo.gemspec" }
+    let(:source) { 'require_relative "lib/foo/version"' }
+
+    it 'does not register an offense' do
+      expect_no_offenses(<<~RUBY, filename)
+        #{source}
+      RUBY
+    end
+  end
+
   context 'when `require_relative` calls are made from inside lib/' do
     let(:filename) { "#{project_root}/lib/foo/bar.rb" }
     let(:source) { <<~RUBY.chomp }
