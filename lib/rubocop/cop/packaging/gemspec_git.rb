@@ -3,29 +3,19 @@
 module RuboCop # :nodoc:
   module Cop # :nodoc:
     module Packaging # :nodoc:
-      # This cop is used to identify the usage of `git ls-files`
+      # This cop flags the usage of `git ls-files` in gemspec
       # and suggests to use a plain Ruby alternative, like `Dir`,
-      # `Dir.glob` or `Rake::FileList` instead.
+      # `Dir.glob`, or `Rake::FileList` instead.
+      #
+      # More information about the GemspecGit cop can be found here:
+      # https://github.com/utkarsh2102/packaging-style-guide#gemspec-git
       #
       # @example
       #
       #   # bad
       #   Gem::Specification.new do |spec|
-      #     spec.files = `git ls-files`.split('\n')
-      #   end
-      #
-      #   # bad
-      #   Gem::Specification.new do |spec|
-      #     spec.files = Dir.chdir(File.expand_path('..', __FILE__)) do
-      #       `git ls-files -z`.split('\\x0').reject { |f| f.match(%r{^(test|spec|features)/}) }
-      #     end
-      #   end
-      #
-      #   # bad
-      #   Gem::Specification.new do |spec|
       #     spec.files         = `git ls-files`.split('\n')
-      #     spec.test_files    = `git ls-files -- test/{functional,unit}/*`.split('\n')
-      #     spec.executables   = `git ls-files -- bin/*`.split('\n').map{ |f| File.basename(f) }
+      #     spec.test_files    = `git ls-files -- spec`.split('\n')
       #   end
       #
       #   # good
@@ -34,9 +24,23 @@ module RuboCop # :nodoc:
       #     spec.test_files    = Dir['spec/**/*']
       #   end
       #
+      #   # bad
+      #   Gem::Specification.new do |spec|
+      #     spec.files = Dir.chdir(File.expand_path(__dir__)) do
+      #       `git ls-files -z`.split('\\x0').reject { |f| f.match(%r{^(test|spec|features)/}) }
+      #     end
+      #   end
+      #
       #   # good
       #   Gem::Specification.new do |spec|
       #     spec.files         = Rake::FileList['**/*'].exclude(*File.read('.gitignore').split)
+      #   end
+      #
+      #   # bad
+      #   Gem::Specification.new do |spec|
+      #     spec.files         = `git ls-files -- lib/`.split('\n')
+      #     spec.test_files    = `git ls-files -- test/{functional,unit}/*`.split('\n')
+      #     spec.executables   = `git ls-files -- bin/*`.split('\n').map{ |f| File.basename(f) }
       #   end
       #
       #   # good

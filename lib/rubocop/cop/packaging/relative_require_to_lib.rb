@@ -3,27 +3,30 @@
 module RuboCop # :nodoc:
   module Cop # :nodoc:
     module Packaging # :nodoc:
-      # This cop is used to identify the `require_relative` calls,
-      # mapping to the "lib" directory and suggests to use `require`
-      # instead.
+      # This cop flags the `require_relative` calls, from anywhere
+      # mapping to the "lib" directory, except originating from lib/ or
+      # the gemspec file, and suggests to use `require` instead.
+      #
+      # More information about the RelativeRequireToLib cop can be found here:
+      # https://github.com/utkarsh2102/packaging-style-guide#require-relative-to-lib
       #
       # @example
       #
       #   # bad
       #   require_relative 'lib/foo.rb'
       #
-      #   # bad
-      #   require_relative '../../lib/foo/bar'
-      #
       #   # good
       #   require 'foo.rb'
+      #
+      #   # bad
+      #   require_relative '../../lib/foo/bar'
       #
       #   # good
       #   require 'foo/bar'
       #
       #   # good
       #   require_relative 'spec_helper'
-      #   require_relative 'foo/bar'
+      #   require_relative 'spec/foo/bar'
       #
       class RelativeRequireToLib < Base
         # This is the message that will be displayed when RuboCop finds an

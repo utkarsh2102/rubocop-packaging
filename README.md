@@ -5,9 +5,15 @@ which is a Ruby static code analyzer (a.k.a. linter) and code formatter.
 
 It helps enforcing some of the guidelines that are expected of upstream
 maintainers so that the downstream can build their packages in a clean
-environment without any problems.  
-Some of the other basic guidelines can be found
-[here](https://wiki.debian.org/Teams/Ruby/RubyExtras/UpstreamDevelopers).
+environment without any problems.
+
+## Documentation
+
+A detailed documentation, explaining what this extension is doing and the
+reasoning behind it, can be found here: [packaging-style-guide](https://github.com/utkarsh2102/packaging-style-guide).
+
+In case anything is not clear, please feel free to raise an issue, asking
+for more explanation!
 
 ## Installation
 
