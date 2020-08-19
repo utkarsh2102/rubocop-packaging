@@ -13,26 +13,26 @@ module RuboCop # :nodoc:
       # @example
       #
       #   # bad
-      #   require_relative 'lib/foo.rb'
+      #   require_relative "lib/foo.rb"
       #
       #   # good
-      #   require 'foo.rb'
+      #   require "foo.rb"
       #
       #   # bad
-      #   require_relative '../../lib/foo/bar'
+      #   require_relative "../../lib/foo/bar"
       #
       #   # good
-      #   require 'foo/bar'
+      #   require "foo/bar"
       #
       #   # good
-      #   require_relative 'spec_helper'
-      #   require_relative 'spec/foo/bar'
+      #   require_relative "spec_helper"
+      #   require_relative "spec/foo/bar"
       #
       class RequireRelativeHardcodingLib < Base
         # This is the message that will be displayed when RuboCop finds an
         # offense of using `require_relative` with relative path to lib.
-        MSG = 'Avoid using `require_relative` with relative path to lib. ' \
-          'Use `require` instead.'
+        MSG = "Avoid using `require_relative` with relative path to lib. " \
+          "Use `require` instead."
 
         def_node_matcher :require_relative, <<~PATTERN
           (send nil? :require_relative
@@ -83,7 +83,7 @@ module RuboCop # :nodoc:
 
         # This method determines if that call is made *from* the "gemspec" file.
         def inspected_file_is_gemspec?
-          @file_path.end_with?('gemspec')
+          @file_path.end_with?("gemspec")
         end
       end
     end

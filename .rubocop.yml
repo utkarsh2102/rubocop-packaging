@@ -28,3 +28,11 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Exclude:
     - tasks/*.rake
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+  EnforcedStyle: double_quotes
