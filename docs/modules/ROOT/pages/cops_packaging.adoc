@@ -62,7 +62,7 @@ Gem::Specification.new do |spec|
 end
 ----
 
-== Packaging/RelativeRequireToLib
+== Packaging/RequireRelativeHardcodingLib
 
 |===
 | Enabled by default | Safe | Supports autocorrection | VersionAdded | VersionChanged
@@ -78,8 +78,8 @@ This cop flags the `require_relative` calls, from anywhere
 mapping to the "lib" directory, except originating from lib/ or
 the gemspec file, and suggests to use `require` instead.
 
-More information about the RelativeRequireToLib cop can be found here:
-https://github.com/utkarsh2102/packaging-style-guide#require-relative-to-lib
+More information about the RequireRelativeHardcodingLib cop can be found here:
+https://github.com/utkarsh2102/packaging-style-guide#require-relative-hardcoding-lib
 
 === Examples
 
