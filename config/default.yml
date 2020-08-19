@@ -6,7 +6,7 @@ Packaging/GemspecGit:
   VersionAdded: '0.1'
   VersionChanged: '0.1'
 
-Packaging/RelativeRequireToLib:
+Packaging/RequireRelativeHardcodingLib:
   Description: 'Avoid using `require_relative` with relative path to lib.'
   Enabled: true
   VersionAdded: '0.2'
