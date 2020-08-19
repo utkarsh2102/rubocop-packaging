@@ -14,49 +14,49 @@ module RuboCop # :nodoc:
       #
       #   # bad
       #   Gem::Specification.new do |spec|
-      #     spec.files         = `git ls-files`.split('\n')
-      #     spec.test_files    = `git ls-files -- spec`.split('\n')
+      #     spec.files         = `git ls-files`.split("\n")
+      #     spec.test_files    = `git ls-files -- spec`.split("\n")
       #   end
       #
       #   # good
       #   Gem::Specification.new do |spec|
-      #     spec.files         = Dir['lib/**/*', 'LICENSE', 'README.md']
-      #     spec.test_files    = Dir['spec/**/*']
+      #     spec.files         = Dir["lib/**/*", "LICENSE", "README.md"]
+      #     spec.test_files    = Dir["spec/**/*"]
       #   end
       #
       #   # bad
       #   Gem::Specification.new do |spec|
       #     spec.files = Dir.chdir(File.expand_path(__dir__)) do
-      #       `git ls-files -z`.split('\\x0').reject { |f| f.match(%r{^(test|spec|features)/}) }
+      #       `git ls-files -z`.split("\\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
       #     end
       #   end
       #
       #   # good
       #   Gem::Specification.new do |spec|
-      #     spec.files         = Rake::FileList['**/*'].exclude(*File.read('.gitignore').split)
+      #     spec.files         = Rake::FileList["**/*"].exclude(*File.read(".gitignore").split)
       #   end
       #
       #   # bad
       #   Gem::Specification.new do |spec|
-      #     spec.files         = `git ls-files -- lib/`.split('\n')
-      #     spec.test_files    = `git ls-files -- test/{functional,unit}/*`.split('\n')
-      #     spec.executables   = `git ls-files -- bin/*`.split('\n').map{ |f| File.basename(f) }
+      #     spec.files         = `git ls-files -- lib/`.split("\n")
+      #     spec.test_files    = `git ls-files -- test/{functional,unit}/*`.split("\n")
+      #     spec.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
       #   end
       #
       #   # good
       #   Gem::Specification.new do |spec|
-      #     spec.files         = Dir.glob('lib/**/*')
-      #     spec.test_files    = Dir.glob('test/{functional,test}/*')
-      #     spec.executables   = Dir.glob('bin/*').map{ |f| File.basename(f) }
+      #     spec.files         = Dir.glob("lib/**/*")
+      #     spec.test_files    = Dir.glob("test/{functional,test}/*")
+      #     spec.executables   = Dir.glob("bin/*").map{ |f| File.basename(f) }
       #   end
       #
       class GemspecGit < Cop
         # This is the message that will be displayed when RuboCop finds an
         # offense of using `git ls-files`.
-        MSG = 'Avoid using git to produce lists of files. ' \
-          'Downstreams often need to build your package in an environment ' \
-          'that does not have git (on purpose). ' \
-          'Use some pure Ruby alternative, like `Dir` or `Dir.glob`.'
+        MSG = "Avoid using git to produce lists of files. " \
+          "Downstreams often need to build your package in an environment " \
+          "that does not have git (on purpose). " \
+          "Use some pure Ruby alternative, like `Dir` or `Dir.glob`."
 
         def_node_search :xstr, <<~PATTERN
           (block
@@ -85,9 +85,9 @@ module RuboCop # :nodoc:
         end
 
         # This method is called from inside `#def_node_search`.
-        # It is used to find strings which start with 'git'.
+        # It is used to find strings which start with "git".
         def starts_with_git?(str)
-          str.start_with?('git')
+          str.start_with?("git")
         end
       end
     end

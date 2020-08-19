@@ -7,7 +7,7 @@ RSpec.describe RuboCop::Cop::Packaging::GemspecGit do
 
   let(:message) { RuboCop::Cop::Packaging::GemspecGit::MSG }
 
-  it 'registers an offense when using `git` for :files=' do
+  it "registers an offense when using `git` for :files=" do
     expect_offense(<<~RUBY)
       Gem::Specification.new do |spec|
         spec.files = `git ls-files`.split("\\n")
@@ -16,7 +16,7 @@ RSpec.describe RuboCop::Cop::Packaging::GemspecGit do
     RUBY
   end
 
-  it 'registers an offense when using `git ls-files filename` for :files=' do
+  it "registers an offense when using `git ls-files filename` for :files=" do
     expect_offense(<<~RUBY)
       Gem::Specification.new do |s|
         s.files         = `git ls-files LICENSE docs lib`.split("\\n")
@@ -25,7 +25,7 @@ RSpec.describe RuboCop::Cop::Packaging::GemspecGit do
     RUBY
   end
 
-  it 'registers an offense when using `git` for :files= but differently' do
+  it "registers an offense when using `git` for :files= but differently" do
     expect_offense(<<~RUBY)
       Gem::Specification.new do |spec|
         spec.files = `git ls-files`.split + %w(
@@ -49,10 +49,10 @@ RSpec.describe RuboCop::Cop::Packaging::GemspecGit do
     RUBY
   end
 
-  it 'registers an offense when using `git` for :files= with more stuff' do
+  it "registers an offense when using `git` for :files= with more stuff" do
     expect_offense(<<~RUBY)
       Gem::Specification.new do |spec|
-        spec.files = Dir.chdir(File.expand_path('..', __FILE__)) do
+        spec.files = Dir.chdir(File.expand_path("..", __FILE__)) do
           `git ls-files -z`.split("\\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
           ^^^^^^^^^^^^^^^^^ #{message}
         end
@@ -60,7 +60,7 @@ RSpec.describe RuboCop::Cop::Packaging::GemspecGit do
     RUBY
   end
 
-  it 'registers an offense when using `git` for :executables=' do
+  it "registers an offense when using `git` for :executables=" do
     expect_offense(<<~RUBY)
       Gem::Specification.new do |spec|
         spec.executables = `git ls-files`.split("\\n")
@@ -69,7 +69,7 @@ RSpec.describe RuboCop::Cop::Packaging::GemspecGit do
     RUBY
   end
 
-  it 'does not register an offense when the file just has comments' do
+  it "does not register an offense when the file just has comments" do
     expect_no_offenses(<<~RUBY)
       # Dummy comments.
       # Blank file.
@@ -78,21 +78,21 @@ RSpec.describe RuboCop::Cop::Packaging::GemspecGit do
     RUBY
   end
 
-  it 'does not register an offense when the file is empty/blank' do
+  it "does not register an offense when the file is empty/blank" do
     expect_no_offenses(<<~RUBY)
     RUBY
   end
 
-  it 'does not register an offense not in a specification' do
+  it "does not register an offense not in a specification" do
     expect_no_offenses(<<~RUBY)
       spec.files = `git ls-files`
     RUBY
   end
 
-  it 'does not register an offense when not using `git` for :files=' do
+  it "does not register an offense when not using `git` for :files=" do
     expect_no_offenses(<<~RUBY)
       Gem::Specification.new do |spec|
-        spec.files = Dir['docs/**/*', 'lib/**/*', 'LICENSE'].reject { |f| File.directory?(f) }.sort
+        spec.files = Dir["docs/**/*", "lib/**/*", "LICENSE"].reject { |f| File.directory?(f) }.sort
       end
     RUBY
   end
