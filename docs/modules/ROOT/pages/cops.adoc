@@ -3,6 +3,6 @@
 === Department xref:cops_packaging.adoc[Packaging]
 
 * xref:cops_packaging.adoc#packaginggemspecgit[Packaging/GemspecGit]
-* xref:cops_packaging.adoc#packagingrelativerequiretolib[Packaging/RelativeRequireToLib]
+* xref:cops_packaging.adoc#packagingrequirerelativehardcodinglib[Packaging/RequireRelativeHardcodingLib]
 
 // END_COP_LIST
