@@ -7,8 +7,8 @@ module RuboCop # :nodoc:
       # mapping to the "lib" directory, except originating from lib/ or
       # the gemspec file, and suggests to use `require` instead.
       #
-      # More information about the RelativeRequireToLib cop can be found here:
-      # https://github.com/utkarsh2102/packaging-style-guide#require-relative-to-lib
+      # More information about the RequireRelativeHardcodingLib cop can be found here:
+      # https://github.com/utkarsh2102/packaging-style-guide#require-relative-hardcoding-lib
       #
       # @example
       #
@@ -28,7 +28,7 @@ module RuboCop # :nodoc:
       #   require_relative 'spec_helper'
       #   require_relative 'spec/foo/bar'
       #
-      class RelativeRequireToLib < Base
+      class RequireRelativeHardcodingLib < Base
         # This is the message that will be displayed when RuboCop finds an
         # offense of using `require_relative` with relative path to lib.
         MSG = 'Avoid using `require_relative` with relative path to lib. ' \
