@@ -71,7 +71,7 @@ end
 | Yes
 | No
 | 0.2
-| -
+| 0.3
 |===
 
 This cop flags the `require_relative` calls, from anywhere

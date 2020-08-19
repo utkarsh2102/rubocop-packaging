@@ -10,3 +10,4 @@ Packaging/RequireRelativeHardcodingLib:
   Description: 'Avoid using `require_relative` with relative path to lib.'
   Enabled: true
   VersionAdded: '0.2'
+  VersionChanged: '0.3'
