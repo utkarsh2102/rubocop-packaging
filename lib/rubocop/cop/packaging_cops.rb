@@ -2,3 +2,4 @@
 
 require_relative "packaging/gemspec_git"
 require_relative "packaging/require_relative_hardcoding_lib"
+require_relative "packaging/require_with_relative_path"
