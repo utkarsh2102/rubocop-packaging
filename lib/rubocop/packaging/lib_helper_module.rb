@@ -10,8 +10,7 @@ module RuboCop # :nodoc:
         RuboCop::ConfigLoader.project_root
       end
 
-      # This method determines if the `require_relative` call is made
-      # to the "lib" directory.
+      # This method determines if the calls are made to the "lib" directory.
       def target_falls_in_lib?(str)
         File.expand_path(str, @file_directory).start_with?("#{root_dir}/lib")
       end
