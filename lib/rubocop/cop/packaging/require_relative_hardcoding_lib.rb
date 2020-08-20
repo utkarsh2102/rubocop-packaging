@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "rubocop/packaging/lib_helper_module"
+
 module RuboCop # :nodoc:
   module Cop # :nodoc:
     module Packaging # :nodoc:
@@ -29,6 +31,8 @@ module RuboCop # :nodoc:
       #   require_relative "spec/foo/bar"
       #
       class RequireRelativeHardcodingLib < Base
+        include RuboCop::Packaging::LibHelperModule
+
         # This is the message that will be displayed when RuboCop finds an
         # offense of using `require_relative` with relative path to lib.
         MSG = "Avoid using `require_relative` with relative path to lib. " \
@@ -58,32 +62,11 @@ module RuboCop # :nodoc:
           add_offense(node)
         end
 
-        # For determining the root directory of the project.
-        def root_dir
-          RuboCop::ConfigLoader.project_root
-        end
-
         # This method is called from inside `#def_node_matcher`.
         # It flags an offense if the `require_relative` call is made
         # from anywhere except the "lib" directory.
         def falls_in_lib?(str)
           target_falls_in_lib?(str) && !inspected_file_falls_in_lib? && !inspected_file_is_gemspec?
-        end
-
-        # This method determines if the `require_relative` call is made
-        # to the "lib" directory.
-        def target_falls_in_lib?(str)
-          File.expand_path(str, @file_directory).start_with?("#{root_dir}/lib")
-        end
-
-        # This method determines if that call is made *from* the "lib" directory.
-        def inspected_file_falls_in_lib?
-          @file_path.start_with?("#{root_dir}/lib")
-        end
-
-        # This method determines if that call is made *from* the "gemspec" file.
-        def inspected_file_is_gemspec?
-          @file_path.end_with?("gemspec")
         end
       end
     end
