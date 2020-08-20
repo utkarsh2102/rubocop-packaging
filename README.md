@@ -10,7 +10,7 @@ environment without any problems.
 ## Documentation
 
 A detailed documentation, explaining what this extension is doing and the
-reasoning behind it, can be found here: [packaging-style-guide](https://github.com/utkarsh2102/packaging-style-guide).
+reasoning behind it, can be found here: [packaging-style-guide](https://packaging.rubystyle.guide/).
 
 In case anything is not clear, please feel free to raise an issue, asking
 for more explanation!

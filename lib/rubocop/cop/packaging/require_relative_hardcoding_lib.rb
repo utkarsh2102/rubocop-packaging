@@ -8,7 +8,7 @@ module RuboCop # :nodoc:
       # the gemspec file, and suggests to use `require` instead.
       #
       # More information about the RequireRelativeHardcodingLib cop can be found here:
-      # https://github.com/utkarsh2102/packaging-style-guide#require-relative-hardcoding-lib
+      # https://packaging.rubystyle.guide/#require-relative-hardcoding-lib
       #
       # @example
       #

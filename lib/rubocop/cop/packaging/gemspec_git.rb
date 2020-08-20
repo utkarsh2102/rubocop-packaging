@@ -8,7 +8,7 @@ module RuboCop # :nodoc:
       # `Dir.glob`, or `Rake::FileList` instead.
       #
       # More information about the GemspecGit cop can be found here:
-      # https://github.com/utkarsh2102/packaging-style-guide#gemspec-git
+      # https://packaging.rubystyle.guide/#gemspec-git
       #
       # @example
       #
