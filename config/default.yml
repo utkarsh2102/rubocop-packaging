@@ -11,3 +11,8 @@ Packaging/RequireRelativeHardcodingLib:
   Enabled: true
   VersionAdded: '0.2'
   VersionChanged: '0.3'
+
+Packaging/RequireWithRelativePath:
+  Description: 'Avoid using `require` with relative path.'
+  Enabled: true
+  VersionAdded: '0.3'
