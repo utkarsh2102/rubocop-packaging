@@ -101,3 +101,17 @@ require "foo/bar"
 require_relative "spec_helper"
 require_relative "spec/foo/bar"
 ----
+
+== Packaging/RequireWithRelativePath
+
+|===
+| Enabled by default | Safe | Supports autocorrection | VersionAdded | VersionChanged
+
+| Enabled
+| Yes
+| No
+| 0.3
+| -
+|===
+
+TODO: write documentation later.
