@@ -5,7 +5,34 @@ require "rubocop/packaging/lib_helper_module"
 module RuboCop # :nodoc:
   module Cop # :nodoc:
     module Packaging # :nodoc:
-      # TODO: write documentation later.
+      # This cop flags the `require` calls, from anywhere mapping to
+      # the "lib" directory, except originating from lib/.
+      #
+      # @example
+      #
+      #   # bad
+      #   require "../lib/foo/bar"
+      #
+      #   # good
+      #   require "foo/bar"
+      #
+      #   # bad
+      #   require File.expand_path("../../lib/foo", __FILE__)
+      #
+      #   # good
+      #   require "foo"
+      #
+      #   # bad
+      #   require File.expand_path("../../../lib/foo/bar/baz/qux", __dir__)
+      #
+      #   # good
+      #   require "foo/bar/baz/qux"
+      #
+      #   # bad
+      #   require File.dirname(__FILE__) + "/../../lib/baz/qux"
+      #
+      #   # good
+      #   require "baz/qux"
       #
       class RequireWithRelativePath < Base
         include RuboCop::Packaging::LibHelperModule
@@ -18,7 +45,7 @@ module RuboCop # :nodoc:
           {(send nil? :require (str #falls_in_lib?))
            (send nil? :require (send (const nil? :File) :expand_path (str #falls_in_lib?) (send nil? :__dir__)))
            (send nil? :require (send (const nil? :File) :expand_path (str #falls_in_lib_using_file?) (str _)))
-           (send nil? :require (send (send (const nil? :File) :dirname {(str _) (send nil? _)}) :+ (str #str_starts_with_slash)))}
+           (send nil? :require (send (send (const nil? :File) :dirname {(str _) (send nil? _)}) :+ (str #falls_in_lib_with_file_dirname_plus_str?)))}
         PATTERN
 
         # Extended from the Base class.
@@ -52,6 +79,13 @@ module RuboCop # :nodoc:
         # arguement) is made from anywhere except the "lib" directory.
         def falls_in_lib_using_file?(str)
           target_falls_in_lib_using_file?(str) && !inspected_file_falls_in_lib?
+        end
+
+        # This method preprends a "." to the string that starts with "/".
+        # And then determines if that call is made to "lib/".
+        def falls_in_lib_with_file_dirname_plus_str?(str)
+          str.prepend(".")
+          target_falls_in_lib?(str)
         end
       end
     end
