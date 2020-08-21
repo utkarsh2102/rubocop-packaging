@@ -10,12 +10,6 @@ module RuboCop # :nodoc:
         RuboCop::ConfigLoader.project_root
       end
 
-      # This method preprends a "." to the string that starts with "/".
-      def str_starts_with_slash(str)
-        str.prepend(".")
-        target_falls_in_lib?(str)
-      end
-
       # This method determines if the calls are made to the "lib" directory.
       def target_falls_in_lib?(str)
         File.expand_path(str, @file_directory).start_with?("#{root_dir}/lib")
