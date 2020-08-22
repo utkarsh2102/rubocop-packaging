@@ -1,5 +1,10 @@
 # This is the default configuration file.
 
+Packaging/BundlerSetupInTests:
+  Description: 'Avoid using `bundler/setup` in your tests.'
+  Enabled: true
+  VersionAdded: '0.4'
+
 Packaging/GemspecGit:
   Description: 'Use pure Ruby alternative instead of `git ls-files`.'
   Enabled: true

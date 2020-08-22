@@ -1,5 +1,19 @@
 = Packaging
 
+== Packaging/BundlerSetupInTests
+
+|===
+| Enabled by default | Safe | Supports autocorrection | VersionAdded | VersionChanged
+
+| Enabled
+| Yes
+| No
+| 0.4
+| -
+|===
+
+TODO: Write cop description and example of bad / good code.
+
 == Packaging/GemspecGit
 
 |===
