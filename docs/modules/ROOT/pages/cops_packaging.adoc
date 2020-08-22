@@ -12,7 +12,20 @@
 | -
 |===
 
-TODO: Write cop description and example of bad / good code.
+This cop flags the `require "bundler/setup"` calls if they're
+made from inside the tests directory.
+
+=== Examples
+
+[source,ruby]
+----
+# bad
+require "foo"
+require "bundler/setup"
+
+# good
+require "foo"
+----
 
 == Packaging/GemspecGit
 
