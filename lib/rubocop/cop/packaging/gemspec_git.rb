@@ -50,7 +50,7 @@ module RuboCop # :nodoc:
       #     spec.executables   = Dir.glob("bin/*").map{ |f| File.basename(f) }
       #   end
       #
-      class GemspecGit < Cop
+      class GemspecGit < Base
         # This is the message that will be displayed when RuboCop finds an
         # offense of using `git ls-files`.
         MSG = "Avoid using git to produce lists of files. " \
@@ -72,13 +72,12 @@ module RuboCop # :nodoc:
         # https://github.com/rubocop-hq/rubocop/blob/59543c8e2b66bff249de131fa9105f3eb11e9edb/lib/rubocop/cop/cop.rb#L13-L25
         #
         # Processing of the AST happens here.
-        def investigate(processed_source)
+        def on_new_investigation
           return if processed_source.blank?
 
           xstr(processed_source.ast).each do |node|
             add_offense(
-              processed_source.ast,
-              location: node.loc.expression,
+              node.loc.expression,
               message: MSG
             )
           end
