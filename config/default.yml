@@ -15,4 +15,4 @@ Packaging/RequireRelativeHardcodingLib:
 Packaging/RequireWithRelativePath:
   Description: 'Avoid using `require` with relative path.'
   Enabled: true
-  VersionAdded: '0.3'
+  VersionAdded: '0.4'
