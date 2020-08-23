@@ -137,7 +137,7 @@ require_relative "spec/foo/bar"
 | Enabled
 | Yes
 | No
-| 0.3
+| 0.4
 | -
 |===
 
