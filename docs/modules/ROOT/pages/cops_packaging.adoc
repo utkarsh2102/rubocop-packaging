@@ -135,14 +135,28 @@ end
 | 0.3
 |===
 
-This cop flags the `require_relative` calls, from anywhere
-mapping to the "lib" directory, except originating from lib/ or
-the gemspec file, and suggests to use `require` instead.
+Avoid using `require_relative` with relative path to lib. Use `require` instead.
 
-More information about the RequireRelativeHardcodingLib cop can be found here:
-https://packaging.rubystyle.guide/#require-relative-hardcoding-lib
+=== Rationale [[require-relative-hardcoding-lib-rationale]]
 
-=== Examples
+Debian has a https://ci.debian.net/[testing infrastructure] that is designed to test packages
+in their installed form, i.e., closer to how an end-user would use it than to how a developer
+working against it. For this to work, the test-suite must load code that's installed
+system-wide, instead of the code in the source tree. Using `require_relative` from the tests
+into the `lib` directory makes that impossible, but it also makes the test look less like
+client-code that would use the code in your gem. Therefore, we recommend that test code uses
+the main library code without `require_relative`.
+
+Therefore, when one uses a relative path, we end up getting a `LoadError`, stating: +
+`cannot load such file -- /<<PKGBUILDDIR>>/foo`.
+
+We want to emphasize that *there is nothing wrong* with using `require_relative` inside `lib/`,
+it's just using it from your test code to the `lib` directory prevents the "test the library
+installed system-wide" use case.
+
+Therefore, it is still recommended to use `require_relative` with just this exception to it.
+
+=== Examples [[require-relative-hardcoding-lib-rationale]]
 
 [source,ruby]
 ----
