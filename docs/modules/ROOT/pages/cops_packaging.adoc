@@ -39,14 +39,48 @@ require "foo"
 | 0.1
 |===
 
-This cop flags the usage of `git ls-files` in gemspec
-and suggests to use a plain Ruby alternative, like `Dir`,
-`Dir.glob`, or `Rake::FileList` instead.
+Avoid using `git ls-files` to produce lists of files. Downstreams often need to build your
+package in an environment that does not have git (on purpose). Instead, use some
+pure Ruby alternatives, like `Dir` or `Dir.glob`.
 
-More information about the GemspecGit cop can be found here:
-https://packaging.rubystyle.guide/#gemspec-git
+=== Rationale [[gemspec-git-rationale]]
 
-=== Examples
+Packages in Debian are built in a clean environment (https://wiki.debian.org/sbuild[sbuild],
+https://wiki.debian.org/Schroot[schroot], et al) and whilst doing so, the build fails with: +
+`Invalid gemspec in [<gem_name>.gemspec]: No such file or directory - git`
+
+And adding `git` as a dependency for each of the Ruby packaging is something that is not right
+and definitely not recommended. Besides, the source package consists of released tarballs
+(usually downloaded from GitHub/GitLab releases page or converted from the `.gem` file,
+obtained using `gem fetch foo`), which is extracted during build. So even if we add `git` as
+a build dependency, it would still fail as the Debian package source tree is *not a git repo*.
+Even when the package is maintained in git, it is uploaded as tarballs to the archive without
+any version control information.
+
+Therefore, the only way forward here is to patch out the usage of `git` and use some plain Ruby
+alternatives like `Dir` or `Dir.glob` or even `Rake::FileList` whilst doing the Debian
+maintenance.
+
+There's not only Debian or other OS packaging situation/examples, but also a couple of others,
+for instance:
+
+* `ruby-core` as part of their CI system runs their test suite against an unpackaged Ruby
+  tarball which doesn't have a `.git` directory. That means they needed to overwrite the
+  bundler gemspec to not use git. +
+  Actually, not anymore, https://github.com/rubygems/bundler/pull/6985[since git has been removed from bundler's gemspec].
+
+* If you build your application on a bare docker image without git, and you are pointing to
+  a git sourced gem that uses git on its gemspec, you'll get:
+  `No such file or directory - git ls-files (Errno::ENOENT)` warnings all around. For
+  example, if you use this in your Gemfile: +
+  `gem "foo", git: "https://github.com/has-git-in-gemspec/foo"`
+
+Originally, `git ls-files` inside the default gemspec template was designed so that users
+publishing their first gem wouldn't unintentionally publish artifacts to it.
+Recent versions of bundler won't let you release if you have uncommitted files in your
+working directory, so that risk is lower.
+
+=== Examples [[gemspec-git-examples]]
 
 [source,ruby]
 ----
