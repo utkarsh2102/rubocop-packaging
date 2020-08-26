@@ -7,9 +7,6 @@ module RuboCop # :nodoc:
       # and suggests to use a plain Ruby alternative, like `Dir`,
       # `Dir.glob`, or `Rake::FileList` instead.
       #
-      # More information about the GemspecGit cop can be found here:
-      # https://packaging.rubystyle.guide/#gemspec-git
-      #
       # @example
       #
       #   # bad
