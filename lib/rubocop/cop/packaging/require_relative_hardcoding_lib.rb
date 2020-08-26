@@ -9,9 +9,6 @@ module RuboCop # :nodoc:
       # mapping to the "lib" directory, except originating from lib/ or
       # the gemspec file, and suggests to use `require` instead.
       #
-      # More information about the RequireRelativeHardcodingLib cop can be found here:
-      # https://packaging.rubystyle.guide/#require-relative-hardcoding-lib
-      #
       # @example
       #
       #   # bad
