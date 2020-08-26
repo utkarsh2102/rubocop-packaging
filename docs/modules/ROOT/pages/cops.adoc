@@ -1,3 +1,14 @@
+= Cops
+
+In RuboCop lingo, the various checks performed on the code are called "cops".
+Each cop is responsible for detecting one particular offense.
+RuboCop Packaging has only one department, called Packaging.
+
+== Packaging
+
+`Packaging` cops helps both, upstream and downstream maintenance of your
+projects.
+
 // START_COP_LIST
 
 === Department xref:cops_packaging.adoc[Packaging]
