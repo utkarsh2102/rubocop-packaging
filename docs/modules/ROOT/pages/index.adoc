@@ -6,6 +6,21 @@ is a Ruby static code analyzer (a.k.a. linter) and code formatter.
 It helps to enforce some of the guidelines that are expected of upstream maintainers
 so that the downstream can build their packages in a clean environment without any problems.
 
+== Why Packaging Extension?
+
+The Debian Ruby team has a lot of experience in packaging and maintaining Ruby libraries and
+applications for Debian. During this work, they identified several issues in upstream codebases
+that make it difficult to build a Debian package straight out of those Ruby gems (shipped via
+https://rubygems.org[RubyGems]).
+
+The Debian developers (downstream maintainers) have been in touch with the RubyGems & Bundler
+and other upstream maintainers and we're collaborating to make things easier for OS packagers
+while not compromising the experience for upstream maintainers.
+
+As a result, we're working on this RuboCop extension to enforce a set of best practices that
+upstream maintainers can follow to make the lives of packagers easier. And that is how
+`rubocop-packaging` is born!
+
 https://packaging.rubystyle.guide[The Packaging Style Guide] lists the cops with some
 good and bad examples and the rationale behind these cops can be found in the
 https://docs.rubocop.org/rubocop-packaging/cops_packaging.html[Cops Documentation] section.
