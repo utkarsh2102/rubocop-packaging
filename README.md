@@ -10,7 +10,10 @@ environment without any problems.
 ## Documentation
 
 A detailed documentation, explaining what this extension is doing and the
-reasoning behind it, can be found here: [packaging-style-guide](https://packaging.rubystyle.guide/).
+reasoning behind it, can be found here: https://docs.rubocop.org/rubocop-packaging/
+
+We also have a [packaging-style-guide](https://packaging.rubystyle.guide/),
+listing some good and bad examples and the rationale behind these cops.
 
 In case anything is not clear, please feel free to raise an issue, asking
 for more explanation!
