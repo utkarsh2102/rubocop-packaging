@@ -29,6 +29,8 @@ module RuboCop # :nodoc:
       #   end
       #
       #   # good
+      #   require "rake/file_list"
+      #
       #   Gem::Specification.new do |spec|
       #     spec.files         = Rake::FileList["**/*"].exclude(*File.read(".gitignore").split)
       #   end
