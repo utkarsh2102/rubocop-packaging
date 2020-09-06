@@ -1,6 +1,6 @@
 = RuboCop Packaging
 
-`RuboCop::Packaging` is an extension of [RuboCop](https://rubocop.org/), which
+`RuboCop::Packaging` is an extension of https://rubocop.org[RuboCop], which
 is a Ruby static code analyzer (a.k.a. linter) and code formatter.
 
 It helps to enforce some of the guidelines that are expected of upstream maintainers

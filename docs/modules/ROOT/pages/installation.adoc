@@ -24,6 +24,6 @@ $ gem install rubocop-packaging
 Or on Debian based systems, you can also do:
 
 [source,bash]
----
+----
 $ apt install ruby-rubocop-packaging
----
+----
