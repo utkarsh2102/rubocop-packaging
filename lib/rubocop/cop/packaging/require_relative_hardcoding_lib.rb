@@ -29,6 +29,7 @@ module RuboCop # :nodoc:
       #
       class RequireRelativeHardcodingLib < Base
         include RuboCop::Packaging::LibHelperModule
+        extend AutoCorrector
 
         # This is the message that will be displayed when RuboCop finds an
         # offense of using `require_relative` with relative path to lib.
@@ -56,13 +57,23 @@ module RuboCop # :nodoc:
         def on_send(node)
           return unless require_relative(node)
 
-          add_offense(node)
+          add_offense(node) do |corrector|
+            corrector.replace(node, good_require_call)
+          end
+        end
+
+        # Called from on_send, this method helps to replace the
+        # "bad" require_relative call with the "good" one.
+        def good_require_call
+          good_call = File.expand_path(@str, @file_directory).delete_prefix("#{root_dir}/lib/")
+          %(require "#{good_call}")
         end
 
         # This method is called from inside `#def_node_matcher`.
         # It flags an offense if the `require_relative` call is made
         # from anywhere except the "lib" directory.
         def falls_in_lib?(str)
+          @str = str
           target_falls_in_lib?(str) && !inspected_file_falls_in_lib? && !inspected_file_is_gemspec?
         end
       end
