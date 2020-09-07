@@ -36,6 +36,7 @@ module RuboCop # :nodoc:
       #
       class RequireWithRelativePath < Base
         include RuboCop::Packaging::LibHelperModule
+        extend AutoCorrector
 
         # This is the message that will be displayed when RuboCop::Packaging
         # finds an offense of using `require` with relative path to lib.
@@ -64,13 +65,24 @@ module RuboCop # :nodoc:
         def on_send(node)
           return unless require?(node)
 
-          add_offense(node)
+          add_offense(node) do |corrector|
+            corrector.replace(node, good_require_call)
+          end
+        end
+
+        # Called from on_send, this method helps to replace
+        # the "bad" require call with the "good" one.
+        def good_require_call
+          bad_part = @str.match(%r{.*/lib/}).to_s
+          good_call = @str.delete_prefix(bad_part)
+          %(require "#{good_call}")
         end
 
         # This method is called from inside `#def_node_matcher`.
         # It flags an offense if the `require` call is made from
         # anywhere except the "lib" directory.
         def falls_in_lib?(str)
+          @str = str
           target_falls_in_lib?(str) && inspected_file_is_not_in_lib_or_gemspec?
         end
 
@@ -78,12 +90,14 @@ module RuboCop # :nodoc:
         # It flags an offense if the `require` call (using the __FILE__
         # arguement) is made from anywhere except the "lib" directory.
         def falls_in_lib_using_file?(str)
+          @str = str
           target_falls_in_lib_using_file?(str) && inspected_file_is_not_in_lib_or_gemspec?
         end
 
         # This method preprends a "." to the string that starts with "/".
         # And then determines if that call is made to "lib/".
         def falls_in_lib_with_file_dirname_plus_str?(str)
+          @str = str
           str.prepend(".")
           target_falls_in_lib?(str) && inspected_file_is_not_in_lib_or_gemspec?
         end
