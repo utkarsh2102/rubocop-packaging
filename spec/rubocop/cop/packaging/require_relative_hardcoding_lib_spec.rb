@@ -14,6 +14,10 @@ RSpec.describe RuboCop::Cop::Packaging::RequireRelativeHardcodingLib, :config do
         #{source}
         #{"^" * source.length} #{message}
       RUBY
+
+      expect_correction(<<~RUBY)
+        require "foo.rb"
+      RUBY
     end
   end
 
@@ -25,6 +29,10 @@ RSpec.describe RuboCop::Cop::Packaging::RequireRelativeHardcodingLib, :config do
       expect_offense(<<~RUBY, filename)
         #{source}
         #{"^" * source.length} #{message}
+      RUBY
+
+      expect_correction(<<~RUBY)
+        require "bar"
       RUBY
     end
   end
@@ -41,6 +49,11 @@ RSpec.describe RuboCop::Cop::Packaging::RequireRelativeHardcodingLib, :config do
         #{source}
         #{"^" * 37} #{message}
       RUBY
+
+      expect_correction(<<~RUBY)
+        require_relative "spec_helper"
+        require "rubocop/baz"
+      RUBY
     end
   end
 
@@ -55,6 +68,11 @@ RSpec.describe RuboCop::Cop::Packaging::RequireRelativeHardcodingLib, :config do
       expect_offense(<<~RUBY, filename)
         #{source}
         #{"^" * 29} #{message}
+      RUBY
+
+      expect_correction(<<~RUBY)
+        $:.unshift("../lib")
+        require "qux"
       RUBY
     end
   end
