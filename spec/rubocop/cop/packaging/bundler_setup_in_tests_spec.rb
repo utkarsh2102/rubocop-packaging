@@ -14,6 +14,9 @@ RSpec.describe RuboCop::Cop::Packaging::BundlerSetupInTests, :config do
         #{source}
         #{"^" * source.length} #{message}
       RUBY
+
+      expect_correction(<<~RUBY)
+      RUBY
     end
   end
 
@@ -25,6 +28,9 @@ RSpec.describe RuboCop::Cop::Packaging::BundlerSetupInTests, :config do
       expect_offense(<<~RUBY, filename)
         #{source}
         #{"^" * source.length} #{message}
+      RUBY
+
+      expect_correction(<<~RUBY)
       RUBY
     end
   end
