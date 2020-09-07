@@ -14,6 +14,10 @@ RSpec.describe RuboCop::Cop::Packaging::RequireWithRelativePath, :config do
         #{source}
         #{"^" * source.length} #{message}
       RUBY
+
+      expect_correction(<<~RUBY)
+        require "foo.rb"
+      RUBY
     end
   end
 
@@ -29,6 +33,11 @@ RSpec.describe RuboCop::Cop::Packaging::RequireWithRelativePath, :config do
         #{source}
         #{"^" * 27} #{message}
       RUBY
+
+      expect_correction(<<~RUBY)
+        $:.unshift('../../lib')
+        require "foo/bar"
+      RUBY
     end
   end
 
@@ -40,6 +49,10 @@ RSpec.describe RuboCop::Cop::Packaging::RequireWithRelativePath, :config do
       expect_offense(<<~RUBY, filename)
         #{source}
         #{"^" * source.length} #{message}
+      RUBY
+
+      expect_correction(<<~RUBY)
+        require "foo"
       RUBY
     end
   end
@@ -53,6 +66,10 @@ RSpec.describe RuboCop::Cop::Packaging::RequireWithRelativePath, :config do
         #{source}
         #{"^" * source.length} #{message}
       RUBY
+
+      expect_correction(<<~RUBY)
+        require "foo/bar/baz/qux"
+      RUBY
     end
   end
 
@@ -65,6 +82,10 @@ RSpec.describe RuboCop::Cop::Packaging::RequireWithRelativePath, :config do
         #{source}
         #{"^" * source.length} #{message}
       RUBY
+
+      expect_correction(<<~RUBY)
+        require "baz/qux"
+      RUBY
     end
   end
 
@@ -76,6 +97,10 @@ RSpec.describe RuboCop::Cop::Packaging::RequireWithRelativePath, :config do
       expect_offense(<<~RUBY, filename)
         #{source}
         #{"^" * source.length} #{message}
+      RUBY
+
+      expect_correction(<<~RUBY)
+        require "foo"
       RUBY
     end
   end
