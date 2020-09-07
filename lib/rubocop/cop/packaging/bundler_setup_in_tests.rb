@@ -19,6 +19,8 @@ module RuboCop # :nodoc:
       #
       class BundlerSetupInTests < Base
         include RuboCop::Packaging::LibHelperModule
+        include RangeHelp
+        extend AutoCorrector
 
         # This is the message that will be displayed when RuboCop::Packaging finds
         # an offense of using `require "bundler/setup"` in the tests directory.
@@ -45,7 +47,17 @@ module RuboCop # :nodoc:
         def on_send(node)
           return unless bundler_setup?(node)
 
-          add_offense(node)
+          add_offense(node) do |corrector|
+            autocorrect(corrector, node)
+          end
+        end
+
+        # Called from on_send, this method helps to autocorrect
+        # the offenses flagged by this cop.
+        def autocorrect(corrector, node)
+          range = range_by_whole_lines(node.source_range, include_final_newline: true)
+
+          corrector.remove(range)
         end
 
         # This method is called from inside `#def_node_matcher`.
