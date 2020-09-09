@@ -7,9 +7,9 @@
 
 | Enabled
 | Yes
-| No
+| Yes
 | 0.4
-| -
+| 0.5
 |===
 
 This cop flags the `require "bundler/setup"` calls if they're
