@@ -30,34 +30,3 @@ task verify_cops_documentation: :generate_cops_documentation do
     exit!
   end
 end
-
-desc "Syntax check for the documentation comments"
-task documentation_syntax_check: :yard_for_generate_documentation do
-  require "parser/ruby25"
-
-  ok = true
-  YARD::Registry.load!
-  cops = RuboCop::Cop::Cop.registry
-  cops.each do |cop|
-    examples = YARD::Registry.all(:class).find do |code_object|
-      next unless RuboCop::Cop::Badge.for(code_object.to_s) == cop.badge
-
-      break code_object.tags("example")
-    end
-
-    examples.to_a.each do |example|
-      begin
-        buffer = Parser::Source::Buffer.new("<code>", 1)
-        buffer.source = example.text
-        parser = Parser::Ruby25.new(RuboCop::AST::Builder.new)
-        parser.diagnostics.all_errors_are_fatal = true
-        parser.parse(buffer)
-      rescue Parser::SyntaxError => e
-        path = example.object.file
-        puts "#{path}: Syntax Error in an example. #{e}"
-        ok = false
-      end
-    end
-  end
-  abort unless ok
-end
