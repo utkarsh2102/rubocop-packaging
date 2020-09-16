@@ -124,6 +124,17 @@ RSpec.describe RuboCop::Cop::Packaging::RequireWithRelativePath, :config do
     end
   end
 
+  context "when the `require` call is made from the gemspec file" do
+    let(:filename) { "#{project_root}/foo.gemspec" }
+    let(:source) { "require 'lib/foo/version'" }
+
+    it "does not register an offense" do
+      expect_no_offenses(<<~RUBY, filename)
+        #{source}
+      RUBY
+    end
+  end
+
   context "when `require` call uses File#expand_path method with __FILE__ but lies inside lib/" do
     let(:filename) { "#{project_root}/lib/foo/bar.rb" }
     let(:source) { "require File.expand_path('../../foo', __FILE__)" }
@@ -135,9 +146,31 @@ RSpec.describe RuboCop::Cop::Packaging::RequireWithRelativePath, :config do
     end
   end
 
+  context "when `require` call uses File#expand_path method with __FILE__ and is made from the gemspec file" do
+    let(:filename) { "#{project_root}/bar.gemspec" }
+    let(:source) { "require File.expand_path('../lib/foo/version', __FILE__)" }
+
+    it "does not register an offense" do
+      expect_no_offenses(<<~RUBY, filename)
+        #{source}
+      RUBY
+    end
+  end
+
   context "when `require` call uses File#expand_path method with __dir__ but lies inside lib/" do
     let(:filename) { "#{project_root}/lib/foo/bar/baz/qux.rb" }
     let(:source) { "require File.expand_path('../../foo', __dir__)" }
+
+    it "does not register an offense" do
+      expect_no_offenses(<<~RUBY, filename)
+        #{source}
+      RUBY
+    end
+  end
+
+  context "when `require` call uses File#expand_path method with __dir__ and is made from the gemspec file" do
+    let(:filename) { "#{project_root}/qux.gemspec" }
+    let(:source) { "require File.expand_path('lib/qux/version', __dir__)" }
 
     it "does not register an offense" do
       expect_no_offenses(<<~RUBY, filename)
@@ -168,6 +201,17 @@ RSpec.describe RuboCop::Cop::Packaging::RequireWithRelativePath, :config do
     end
   end
 
+  context "when the `require` call uses File#dirname with __FILE__ and is made from the gemspec file" do
+    let(:filename) { "#{project_root}/bar.gemspec" }
+    let(:source) { "require File.dirname(__FILE__) + '/../lib/bar/version'" }
+
+    it "does not register an offense" do
+      expect_no_offenses(<<~RUBY, filename)
+        #{source}
+      RUBY
+    end
+  end
+
   context "when the `require` call uses File#dirname with __dir__ but lies inside spec/" do
     let(:filename) { "#{project_root}/spec/foo/bar_spec.rb" }
     let(:source) { "require File.dirname(__dir__) + '/../lib/bar'" }
@@ -182,6 +226,17 @@ RSpec.describe RuboCop::Cop::Packaging::RequireWithRelativePath, :config do
   context "when the `require` call uses File#dirname with __dir__ but lies inside lib/" do
     let(:filename) { "#{project_root}/lib/baz/qux.rb" }
     let(:source) { "require File.dirname(__dir__) + '/../baz'" }
+
+    it "does not register an offense" do
+      expect_no_offenses(<<~RUBY, filename)
+        #{source}
+      RUBY
+    end
+  end
+
+  context "when the `require` call uses File#dirname with __dir__ and is made from the gemspec file" do
+    let(:filename) { "#{project_root}/baz.gemspec" }
+    let(:source) { "require File.dirname(__dir__) + '/lib/baz/version'" }
 
     it "does not register an offense" do
       expect_no_offenses(<<~RUBY, filename)
