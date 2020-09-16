@@ -71,21 +71,21 @@ module RuboCop # :nodoc:
         # It flags an offense if the `require` call is made from
         # anywhere except the "lib" directory.
         def falls_in_lib?(str)
-          target_falls_in_lib?(str) && !inspected_file_falls_in_lib?
+          target_falls_in_lib?(str) && !inspected_file_falls_in_lib? && !inspected_file_is_gemspec?
         end
 
         # This method is called from inside `#def_node_matcher`.
         # It flags an offense if the `require` call (using the __FILE__
         # arguement) is made from anywhere except the "lib" directory.
         def falls_in_lib_using_file?(str)
-          target_falls_in_lib_using_file?(str) && !inspected_file_falls_in_lib?
+          target_falls_in_lib_using_file?(str) && !inspected_file_falls_in_lib? && !inspected_file_is_gemspec?
         end
 
         # This method preprends a "." to the string that starts with "/".
         # And then determines if that call is made to "lib/".
         def falls_in_lib_with_file_dirname_plus_str?(str)
           str.prepend(".")
-          target_falls_in_lib?(str) && !inspected_file_falls_in_lib?
+          target_falls_in_lib?(str) && !inspected_file_falls_in_lib? && !inspected_file_is_gemspec?
         end
       end
     end
