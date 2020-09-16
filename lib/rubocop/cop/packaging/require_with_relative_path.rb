@@ -85,7 +85,7 @@ module RuboCop # :nodoc:
         # And then determines if that call is made to "lib/".
         def falls_in_lib_with_file_dirname_plus_str?(str)
           str.prepend(".")
-          target_falls_in_lib?(str)
+          target_falls_in_lib?(str) && !inspected_file_falls_in_lib?
         end
       end
     end
