@@ -113,6 +113,39 @@ RSpec.describe RuboCop::Cop::Packaging::RequireWithRelativePath, :config do
     end
   end
 
+  context "when the `require` call is made to lib/ from inside lib/ itself" do
+    let(:filename) { "#{project_root}/lib/foo/bar.rb" }
+    let(:source) { "require '../foo'" }
+
+    it "does not register an offense" do
+      expect_no_offenses(<<~RUBY, filename)
+        #{source}
+      RUBY
+    end
+  end
+
+  context "when `require` call uses File#expand_path method with __FILE__ but lies inside lib/" do
+    let(:filename) { "#{project_root}/lib/foo/bar.rb" }
+    let(:source) { "require File.expand_path('../../foo', __FILE__)" }
+
+    it "does not register an offense" do
+      expect_no_offenses(<<~RUBY, filename)
+        #{source}
+      RUBY
+    end
+  end
+
+  context "when `require` call uses File#expand_path method with __dir__ but lies inside lib/" do
+    let(:filename) { "#{project_root}/lib/foo/bar/baz/qux.rb" }
+    let(:source) { "require File.expand_path('../../foo', __dir__)" }
+
+    it "does not register an offense" do
+      expect_no_offenses(<<~RUBY, filename)
+        #{source}
+      RUBY
+    end
+  end
+
   context "when the `require` call uses File#dirname with __FILE__ but lies inside tests/" do
     let(:filename) { "#{project_root}/tests/foo/bar_spec.rb" }
     let(:source) { "require File.dirname(__FILE__) + '/../lib/bar'" }
@@ -124,9 +157,31 @@ RSpec.describe RuboCop::Cop::Packaging::RequireWithRelativePath, :config do
     end
   end
 
+  context "when the `require` call uses File#dirname with __FILE__ but lies inside lib/" do
+    let(:filename) { "#{project_root}/lib/baz/qux.rb" }
+    let(:source) { "require File.dirname(__FILE__) + '/../baz'" }
+
+    it "does not register an offense" do
+      expect_no_offenses(<<~RUBY, filename)
+        #{source}
+      RUBY
+    end
+  end
+
   context "when the `require` call uses File#dirname with __dir__ but lies inside spec/" do
     let(:filename) { "#{project_root}/spec/foo/bar_spec.rb" }
     let(:source) { "require File.dirname(__dir__) + '/../lib/bar'" }
+
+    it "does not register an offense" do
+      expect_no_offenses(<<~RUBY, filename)
+        #{source}
+      RUBY
+    end
+  end
+
+  context "when the `require` call uses File#dirname with __dir__ but lies inside lib/" do
+    let(:filename) { "#{project_root}/lib/baz/qux.rb" }
+    let(:source) { "require File.dirname(__dir__) + '/../baz'" }
 
     it "does not register an offense" do
       expect_no_offenses(<<~RUBY, filename)
