@@ -30,6 +30,12 @@ module RuboCop # :nodoc:
       def inspected_file_is_gemspec?
         @file_path.end_with?("gemspec")
       end
+
+      # This method determines if the inspected file is not in lib/ or
+      # isn't a gemspec file.
+      def inspected_file_is_not_in_lib_or_gemspec?
+        !inspected_file_falls_in_lib? && !inspected_file_is_gemspec?
+      end
     end
   end
 end

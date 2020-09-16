@@ -74,7 +74,7 @@ module RuboCop # :nodoc:
         # from anywhere except the "lib" directory.
         def falls_in_lib?(str)
           @str = str
-          target_falls_in_lib?(str) && !inspected_file_falls_in_lib? && !inspected_file_is_gemspec?
+          target_falls_in_lib?(str) && inspected_file_is_not_in_lib_or_gemspec?
         end
       end
     end
