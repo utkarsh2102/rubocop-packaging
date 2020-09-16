@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.files         = Dir["config/default.yml", "lib/**/*", "LICENSE", "README.md"]
   spec.require_paths = ["lib"]
 
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
+  spec.required_ruby_version = Gem::Requirement.new(">= 2.4.0")
 
   spec.add_development_dependency   "bump", "~> 0.8"
   spec.add_development_dependency   "pry", "~> 0.13"
