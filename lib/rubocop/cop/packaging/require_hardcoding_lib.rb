@@ -34,7 +34,7 @@ module RuboCop # :nodoc:
       #   # good
       #   require "baz/qux"
       #
-      class RequireWithRelativePath < Base
+      class RequireHardcodingLib < Base
         include RuboCop::Packaging::LibHelperModule
         extend AutoCorrector
 
