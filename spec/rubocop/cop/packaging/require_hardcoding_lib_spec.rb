@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-RSpec.describe RuboCop::Cop::Packaging::RequireWithRelativePath, :config do
-  let(:message) { RuboCop::Cop::Packaging::RequireWithRelativePath::MSG }
+RSpec.describe RuboCop::Cop::Packaging::RequireHardcodingLib, :config do
+  let(:message) { RuboCop::Cop::Packaging::RequireHardcodingLib::MSG }
 
   let(:project_root) { RuboCop::ConfigLoader.project_root }
 
