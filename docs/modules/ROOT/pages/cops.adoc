@@ -15,7 +15,7 @@ projects.
 
 * xref:cops_packaging.adoc#packagingbundlersetupintests[Packaging/BundlerSetupInTests]
 * xref:cops_packaging.adoc#packaginggemspecgit[Packaging/GemspecGit]
+* xref:cops_packaging.adoc#packagingrequirehardcodinglib[Packaging/RequireHardcodingLib]
 * xref:cops_packaging.adoc#packagingrequirerelativehardcodinglib[Packaging/RequireRelativeHardcodingLib]
-* xref:cops_packaging.adoc#packagingrequirewithrelativepath[Packaging/RequireWithRelativePath]
 
 // END_COP_LIST
