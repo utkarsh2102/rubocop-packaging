@@ -186,9 +186,9 @@ require_relative "spec/foo/bar"
 
 | Enabled
 | Yes
-| No
+| Yes
 | 0.4
-| -
+| 0.5
 |===
 
 This cop flags the `require` calls, from anywhere mapping to
