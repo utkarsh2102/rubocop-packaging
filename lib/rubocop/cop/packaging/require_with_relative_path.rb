@@ -73,8 +73,7 @@ module RuboCop # :nodoc:
         # Called from on_send, this method helps to replace
         # the "bad" require call with the "good" one.
         def good_require_call
-          bad_part = @str.match(%r{.*/lib/}).to_s
-          good_call = @str.delete_prefix(bad_part)
+          good_call = @str.sub(%r{^.*/lib/}, "")
           %(require "#{good_call}")
         end
 
