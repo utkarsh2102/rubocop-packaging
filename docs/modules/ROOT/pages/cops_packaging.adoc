@@ -125,6 +125,50 @@ Gem::Specification.new do |spec|
 end
 ----
 
+== Packaging/RequireHardcodingLib
+
+|===
+| Enabled by default | Safe | Supports autocorrection | VersionAdded | VersionChanged
+
+| Enabled
+| Yes
+| Yes
+| 0.4
+| 0.5
+|===
+
+This cop flags the `require` calls, from anywhere mapping to
+the "lib" directory, except originating from lib/.
+
+=== Examples
+
+[source,ruby]
+----
+# bad
+require "../lib/foo/bar"
+
+# good
+require "foo/bar"
+
+# bad
+require File.expand_path("../../lib/foo", __FILE__)
+
+# good
+require "foo"
+
+# bad
+require File.expand_path("../../../lib/foo/bar/baz/qux", __dir__)
+
+# good
+require "foo/bar/baz/qux"
+
+# bad
+require File.dirname(__FILE__) + "/../../lib/baz/qux"
+
+# good
+require "baz/qux"
+----
+
 == Packaging/RequireRelativeHardcodingLib
 
 |===
@@ -177,48 +221,4 @@ require "foo/bar"
 # good
 require_relative "spec_helper"
 require_relative "spec/foo/bar"
-----
-
-== Packaging/RequireWithRelativePath
-
-|===
-| Enabled by default | Safe | Supports autocorrection | VersionAdded | VersionChanged
-
-| Enabled
-| Yes
-| Yes
-| 0.4
-| 0.5
-|===
-
-This cop flags the `require` calls, from anywhere mapping to
-the "lib" directory, except originating from lib/.
-
-=== Examples
-
-[source,ruby]
-----
-# bad
-require "../lib/foo/bar"
-
-# good
-require "foo/bar"
-
-# bad
-require File.expand_path("../../lib/foo", __FILE__)
-
-# good
-require "foo"
-
-# bad
-require File.expand_path("../../../lib/foo/bar/baz/qux", __dir__)
-
-# good
-require "foo/bar/baz/qux"
-
-# bad
-require File.dirname(__FILE__) + "/../../lib/baz/qux"
-
-# good
-require "baz/qux"
 ----
