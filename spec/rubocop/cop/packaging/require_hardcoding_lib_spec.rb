@@ -91,7 +91,7 @@ RSpec.describe RuboCop::Cop::Packaging::RequireHardcodingLib, :config do
 
   context "when `require` call uses File#dirname method with __FILE__ with interpolation" do
     let(:filename) { "#{project_root}/specs/baz/qux_spec.rb" }
-    let(:source) { 'require "#{File.dirname(__FILE__)}/../../lib/baz/qux"' }
+    let(:source) { 'require "#{File.dirname(__FILE__)}/../../lib/baz/qux"' } # rubocop:disable Lint/InterpolationCheck
 
     it "registers an offense" do
       expect_offense(<<~RUBY, filename)
@@ -123,7 +123,7 @@ RSpec.describe RuboCop::Cop::Packaging::RequireHardcodingLib, :config do
 
   context "when `require` call uses File#dirname method with __dir__ with interpolation" do
     let(:filename) { "#{project_root}/spec/foo.rb" }
-    let(:source) { 'require "#{File.dirname(__dir__)}/../lib/foo"' }
+    let(:source) { 'require "#{File.dirname(__dir__)}/../lib/foo"' } # rubocop:disable Lint/InterpolationCheck
 
     it "registers an offense" do
       expect_offense(<<~RUBY, filename)
