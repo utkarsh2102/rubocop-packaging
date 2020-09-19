@@ -53,9 +53,9 @@ module RuboCop # :nodoc:
         # This is the message that will be displayed when RuboCop finds an
         # offense of using `git ls-files`.
         MSG = "Avoid using git to produce lists of files. " \
-          "Downstreams often need to build your package in an environment " \
-          "that does not have git (on purpose). " \
-          "Use some pure Ruby alternative, like `Dir` or `Dir.glob`."
+              "Downstreams often need to build your package in an environment " \
+              "that does not have git (on purpose). " \
+              "Use some pure Ruby alternative, like `Dir` or `Dir.glob`."
 
         def_node_search :xstr, <<~PATTERN
           (block
