@@ -46,7 +46,8 @@ module RuboCop # :nodoc:
           {(send nil? :require (str #falls_in_lib?))
            (send nil? :require (send (const nil? :File) :expand_path (str #falls_in_lib?) (send nil? :__dir__)))
            (send nil? :require (send (const nil? :File) :expand_path (str #falls_in_lib_using_file?) (str _)))
-           (send nil? :require (send (send (const nil? :File) :dirname {(str _) (send nil? _)}) :+ (str #falls_in_lib_with_file_dirname_plus_str?)))}
+           (send nil? :require (send (send (const nil? :File) :dirname {(str _) (send nil? _)}) :+ (str #falls_in_lib_with_file_dirname_plus_str?)))
+           (send nil? :require (dstr (begin (send (const nil? :File) :dirname {(str _) (send nil? _)})) (str #falls_in_lib_with_file_dirname_plus_str?)))}
         PATTERN
 
         # Extended from the Base class.
