@@ -89,9 +89,41 @@ RSpec.describe RuboCop::Cop::Packaging::RequireHardcodingLib, :config do
     end
   end
 
+  context "when `require` call uses File#dirname method with __FILE__ with interpolation" do
+    let(:filename) { "#{project_root}/specs/baz/qux_spec.rb" }
+    let(:source) { 'require "#{File.dirname(__FILE__)}/../../lib/baz/qux"' }
+
+    it "registers an offense" do
+      expect_offense(<<~RUBY, filename)
+        #{source}
+        #{"^" * source.length} #{message}
+      RUBY
+
+      expect_correction(<<~RUBY)
+        require "baz/qux"
+      RUBY
+    end
+  end
+
   context "when `require` call uses File#dirname method with __dir__" do
     let(:filename) { "#{project_root}/spec/foo.rb" }
     let(:source) { "require File.dirname(__dir__) + '/../lib/foo'" }
+
+    it "registers an offense" do
+      expect_offense(<<~RUBY, filename)
+        #{source}
+        #{"^" * source.length} #{message}
+      RUBY
+
+      expect_correction(<<~RUBY)
+        require "foo"
+      RUBY
+    end
+  end
+
+  context "when `require` call uses File#dirname method with __dir__ with interpolation" do
+    let(:filename) { "#{project_root}/spec/foo.rb" }
+    let(:source) { 'require "#{File.dirname(__dir__)}/../lib/foo"' }
 
     it "registers an offense" do
       expect_offense(<<~RUBY, filename)
