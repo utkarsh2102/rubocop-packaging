@@ -24,7 +24,7 @@ module RuboCop # :nodoc:
 
         # This is the message that will be displayed when RuboCop::Packaging finds
         # an offense of using `require "bundler/setup"` in the tests directory.
-        MSG = "Avoid using `bundler/setup` in your tests."
+        MSG = "Using `bundler/setup` in tests is redundant. Consider removing it."
 
         def_node_matcher :bundler_setup?, <<~PATTERN
           (send nil? :require

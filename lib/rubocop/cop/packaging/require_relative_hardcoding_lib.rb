@@ -34,7 +34,7 @@ module RuboCop # :nodoc:
         # This is the message that will be displayed when RuboCop finds an
         # offense of using `require_relative` with relative path to lib.
         MSG = "Avoid using `require_relative` with relative path to lib. " \
-          "Use `require` instead."
+              "Use `require` with absolute path instead."
 
         def_node_matcher :require_relative, <<~PATTERN
           (send nil? :require_relative
