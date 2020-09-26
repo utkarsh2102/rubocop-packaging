@@ -207,10 +207,10 @@ Therefore, it is still recommended to use `require_relative` with just this exce
 [source,ruby]
 ----
 # bad
-require_relative "lib/foo.rb"
+require_relative "lib/foo"
 
 # good
-require "foo.rb"
+require "foo"
 
 # bad
 require_relative "../../lib/foo/bar"
@@ -219,6 +219,6 @@ require_relative "../../lib/foo/bar"
 require "foo/bar"
 
 # good
-require_relative "spec_helper"
-require_relative "spec/foo/bar"
+require_relative "foo/bar/bax"
+require_relative "baz/qux"
 ----

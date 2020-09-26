@@ -12,10 +12,10 @@ module RuboCop # :nodoc:
       # @example
       #
       #   # bad
-      #   require_relative "lib/foo.rb"
+      #   require_relative "lib/foo"
       #
       #   # good
-      #   require "foo.rb"
+      #   require "foo"
       #
       #   # bad
       #   require_relative "../../lib/foo/bar"
@@ -24,8 +24,8 @@ module RuboCop # :nodoc:
       #   require "foo/bar"
       #
       #   # good
-      #   require_relative "spec_helper"
-      #   require_relative "spec/foo/bar"
+      #   require_relative "foo/bar/bax"
+      #   require_relative "baz/qux"
       #
       class RequireRelativeHardcodingLib < Base
         include RuboCop::Packaging::LibHelperModule
