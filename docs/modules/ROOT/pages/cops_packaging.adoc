@@ -202,7 +202,7 @@ installed system-wide" use case.
 
 Therefore, it is still recommended to use `require_relative` with just this exception to it.
 
-=== Examples [[require-relative-hardcoding-lib-rationale]]
+=== Examples [[require-relative-hardcoding-lib-examples]]
 
 [source,ruby]
 ----
