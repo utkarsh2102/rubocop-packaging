@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.email         = ["utkarsh@debian.org"]
   spec.license       = "MIT"
   spec.homepage      = "https://github.com/utkarsh2102/rubocop-packaging"
-  spec.summary       = "Automatic downstream compatability checking tool for Ruby code"
+  spec.summary       = "Automatic downstream compatibility checking tool for Ruby code"
   spec.description   = <<~DESCRIPTION
-    A collection of RuboCop cops to check for downstream compatability issues in the
+    A collection of RuboCop cops to check for downstream compatibility issues in the
     Ruby code.
   DESCRIPTION
 
