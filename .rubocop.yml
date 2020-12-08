@@ -3,6 +3,7 @@ require:
 
 AllCops:
   NewCops: enable
+  SuggestExtensions: false
   Exclude:
     - '.bundle/**/*'
     - 'spec/fixtures/**/*'
