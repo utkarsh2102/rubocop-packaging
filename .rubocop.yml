@@ -17,7 +17,7 @@ Naming/FileName:
 Metrics/BlockLength:
   Exclude:
     - tasks/*.rake
-  ExcludedMethods:
+  IgnoredMethods:
     - configure
     - describe
     - context
