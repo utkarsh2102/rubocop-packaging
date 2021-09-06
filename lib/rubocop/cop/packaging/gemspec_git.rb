@@ -11,14 +11,12 @@ module RuboCop # :nodoc:
       #
       #   # bad
       #   Gem::Specification.new do |spec|
-      #     spec.files         = `git ls-files`.split("\n")
-      #     spec.test_files    = `git ls-files -- spec`.split("\n")
+      #     spec.files = `git ls-files`.split("\n")
       #   end
       #
       #   # good
       #   Gem::Specification.new do |spec|
-      #     spec.files         = Dir["lib/**/*", "LICENSE", "README.md"]
-      #     spec.test_files    = Dir["spec/**/*"]
+      #     spec.files = Dir["lib/**/*", "LICENSE", "README.md"]
       #   end
       #
       #   # bad
@@ -32,21 +30,19 @@ module RuboCop # :nodoc:
       #   require "rake/file_list"
       #
       #   Gem::Specification.new do |spec|
-      #     spec.files         = Rake::FileList["**/*"].exclude(*File.read(".gitignore").split)
+      #     spec.files = Rake::FileList["**/*"].exclude(*File.read(".gitignore").split)
       #   end
       #
       #   # bad
       #   Gem::Specification.new do |spec|
-      #     spec.files         = `git ls-files -- lib/`.split("\n")
-      #     spec.test_files    = `git ls-files -- test/{functional,unit}/*`.split("\n")
-      #     spec.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+      #     spec.files        = `git ls-files -- lib/`.split("\n")
+      #     spec.executables  = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
       #   end
       #
       #   # good
       #   Gem::Specification.new do |spec|
-      #     spec.files         = Dir.glob("lib/**/*")
-      #     spec.test_files    = Dir.glob("test/{functional,test}/*")
-      #     spec.executables   = Dir.glob("bin/*").map{ |f| File.basename(f) }
+      #     spec.files        = Dir.glob("lib/**/*")
+      #     spec.executables  = Dir.glob("bin/*").map{ |f| File.basename(f) }
       #   end
       #
       class GemspecGit < Base
