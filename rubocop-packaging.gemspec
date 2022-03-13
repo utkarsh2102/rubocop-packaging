@@ -17,6 +17,7 @@ Gem::Specification.new do |spec|
 
   spec.metadata["homepage_uri"]    = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/utkarsh2102/rubocop-packaging"
+  spec.metadata["rubygems_mfa_required"] = "true"
 
   spec.files         = Dir["config/default.yml", "lib/**/*", "LICENSE", "README.md"]
   spec.require_paths = ["lib"]
