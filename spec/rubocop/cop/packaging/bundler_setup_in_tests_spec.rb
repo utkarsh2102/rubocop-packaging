@@ -15,8 +15,7 @@ RSpec.describe RuboCop::Cop::Packaging::BundlerSetupInTests, :config do
         #{"^" * source.length} #{message}
       RUBY
 
-      expect_correction(<<~RUBY)
-      RUBY
+      expect_correction("")
     end
   end
 
@@ -30,8 +29,7 @@ RSpec.describe RuboCop::Cop::Packaging::BundlerSetupInTests, :config do
         #{"^" * source.length} #{message}
       RUBY
 
-      expect_correction(<<~RUBY)
-      RUBY
+      expect_correction("")
     end
   end
 

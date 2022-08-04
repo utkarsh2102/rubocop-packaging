@@ -79,8 +79,7 @@ RSpec.describe RuboCop::Cop::Packaging::GemspecGit do
   end
 
   it "does not register an offense when the file is empty/blank" do
-    expect_no_offenses(<<~RUBY)
-    RUBY
+    expect_no_offenses("")
   end
 
   it "does not register an offense not in a specification" do
