@@ -3,7 +3,7 @@
 RSpec.describe RuboCop::Cop::Packaging::RequireHardcodingLib, :config do
   let(:message) { RuboCop::Cop::Packaging::RequireHardcodingLib::MSG }
 
-  let(:project_root) { RuboCop::ConfigLoader.project_root }
+  let(:project_root) { RuboCop::ConfigFinder.project_root }
 
   context "when `require` call lies outside spec/" do
     let(:filename) { "#{project_root}/spec/foo_spec.rb" }
