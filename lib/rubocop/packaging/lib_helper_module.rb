@@ -7,7 +7,7 @@ module RuboCop # :nodoc:
     module LibHelperModule
       # For determining the root directory of the project.
       def root_dir
-        RuboCop::ConfigLoader.project_root
+        RuboCop::ConfigFinder.project_root
       end
 
       # This method determines if the calls are made to the "lib" directory.
