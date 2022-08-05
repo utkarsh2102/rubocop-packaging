@@ -3,7 +3,7 @@
 RSpec.describe RuboCop::Cop::Packaging::BundlerSetupInTests, :config do
   let(:message) { RuboCop::Cop::Packaging::BundlerSetupInTests::MSG }
 
-  let(:project_root) { RuboCop::ConfigLoader.project_root }
+  let(:project_root) { RuboCop::ConfigFinder.project_root }
 
   context "when `require bundler/setup` is used in specs/" do
     let(:filename) { "#{project_root}/spec/spec_helper.rb" }
