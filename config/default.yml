@@ -1,5 +1,9 @@
 # This is the default configuration file.
 
+Packaging:
+  Enabled: true
+  DocumentationBaseURL: https://docs.rubocop.org/rubocop-packaging
+
 Packaging/BundlerSetupInTests:
   Description: >-
                  Using `bundler/setup` in tests is redundant. Consider
