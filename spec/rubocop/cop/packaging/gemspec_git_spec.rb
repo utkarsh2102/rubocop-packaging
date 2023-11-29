@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe RuboCop::Cop::Packaging::GemspecGit do
-  subject(:cop) { described_class.new(config) }
-
-  let(:config) { RuboCop::Config.new }
-
+RSpec.describe RuboCop::Cop::Packaging::GemspecGit, :config do
   let(:message) { RuboCop::Cop::Packaging::GemspecGit::MSG }
 
   it "registers an offense when using `git` for :files=" do
