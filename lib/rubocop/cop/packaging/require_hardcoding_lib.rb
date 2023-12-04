@@ -40,15 +40,14 @@ module RuboCop # :nodoc:
 
         # This is the message that will be displayed when RuboCop::Packaging
         # finds an offense of using `require` with relative path to lib.
-        MSG = "Avoid using `require` with relative path to `lib/`. " \
-              "Use `require` with absolute path instead."
+        MSG = "Avoid using relative path to `lib/`. " \
+              "Use absolute path instead."
 
-        def_node_matcher :require?, <<~PATTERN
-          {(send nil? :require (str #falls_in_lib?))
-           (send nil? :require (send (const nil? :File) :expand_path (str #falls_in_lib?) (send nil? :__dir__)))
-           (send nil? :require (send (const nil? :File) :expand_path (str #falls_in_lib_using_file?) (str _)))
-           (send nil? :require (send (send (const nil? :File) :dirname {(str _) (send nil? _)}) :+ (str #falls_in_lib_with_file_dirname_plus_str?)))
-           (send nil? :require (dstr (begin (send (const nil? :File) :dirname {(str _) (send nil? _)})) (str #falls_in_lib_with_file_dirname_plus_str?)))}
+        def_node_matcher :File?, <<~PATTERN
+          {(send (const nil? :File) :expand_path (str #falls_in_lib?) (send nil? :__dir__))
+           (send (const nil? :File) :expand_path (str #falls_in_lib_using_file?) (str _))
+           (send (send (const nil? :File) :dirname {(str _) (send nil? _)}) :+ (str #falls_in_lib_with_file_dirname_plus_str?))
+           (dstr (begin (send (const nil? :File) :dirname {(str _) (send nil? _)})) (str #falls_in_lib_with_file_dirname_plus_str?))}
         PATTERN
 
         # Extended from the Base class.
@@ -65,7 +64,7 @@ module RuboCop # :nodoc:
         # More about the `#on_send` method can be found here:
         # https://github.com/rubocop-hq/rubocop-ast/blob/08d0f49a47af1e9a30a6d8f67533ba793c843d67/lib/rubocop/ast/traversal.rb#L112
         def on_send(node)
-          return unless require?(node)
+          return unless File?(node)
 
           add_offense(node) do |corrector|
             corrector.replace(node, good_require_call)
