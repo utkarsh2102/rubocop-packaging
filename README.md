@@ -48,14 +48,14 @@ ways to do this:
 Put this into your `.rubocop.yml` file:
 
 ```yaml
-require: rubocop-packaging
+plugins: rubocop-packaging
 ```
 
 Alternatively, use the following array notation when specifying multiple
 extensions:
 
 ```yaml
-require:
+plugins:
   - rubocop-other-extension
   - rubocop-packaging
 ```
@@ -63,17 +63,20 @@ require:
 Now you can run `rubocop` and it will automatically load the RuboCop Packaging
 cops together with the standard cops.
 
+> [!NOTE]
+> The plugin system is supported in RuboCop 1.72+. In earlier versions, use `require` instead of `plugins`.
+
 ### Command line
 
 ```bash
-rubocop --require rubocop-packaging
+rubocop --plugin rubocop-packaging
 ```
 
 ### Rake task
 
 ```ruby
 RuboCop::RakeTask.new do |task|
-  task.requires << 'rubocop-packaging'
+  task.plugins << 'rubocop-packaging'
 end
 ```
 
@@ -87,7 +90,7 @@ To install this gem onto your local machine, run `bundle exec rake install`.
 
 ## Contributing
 
-As always, bug reports and pull requests are heartily welcomed! 💖  
+As always, bug reports and pull requests are heartily welcomed! 💖
 This project is intended to be a safe and welcoming space for collaboration.
 
 ## License

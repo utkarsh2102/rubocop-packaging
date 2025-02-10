@@ -1,4 +1,4 @@
-require:
+plugins:
   - rubocop-packaging
 
 AllCops:
@@ -9,7 +9,7 @@ AllCops:
     - 'spec/fixtures/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 2.7
 
 Gemspec/DevelopmentDependencies:
   Enabled: false
