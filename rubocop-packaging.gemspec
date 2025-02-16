@@ -22,9 +22,12 @@ Gem::Specification.new do |spec|
   spec.files         = Dir["config/default.yml", "lib/**/*", "LICENSE", "README.md"]
   spec.require_paths = ["lib"]
 
-  spec.required_ruby_version = Gem::Requirement.new(">= 2.6.0")
+  spec.required_ruby_version = Gem::Requirement.new(">= 2.7.0")
 
-  spec.add_dependency "rubocop", ">= 1.33", "< 2.0"
+  spec.metadata["default_lint_roller_plugin"] = "RuboCop::Packaging::Plugin"
+
+  spec.add_dependency "lint_roller", "~> 1.1.0"
+  spec.add_dependency "rubocop", ">= 1.72.1", "< 2.0"
 
   spec.add_development_dependency "bump", "~> 0.8"
   spec.add_development_dependency "rake", "~> 13.0"
