@@ -21,7 +21,7 @@ jobs:
         ruby-version: ${{ matrix.ruby }}
     - name: Run tests
       run: bundle exec rake
-    - name: Run tests with prism parser
+    - name: Run tests with Prism parser
       run: bundle exec rake
       env:
         PARSER_ENGINE: parser_prism
