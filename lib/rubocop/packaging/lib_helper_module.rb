@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "pathname"
+
 module RuboCop # :nodoc:
   module Packaging # :nodoc:
     # This helper module extracts the methods which can be used
@@ -10,30 +12,17 @@ module RuboCop # :nodoc:
         return @root_dir if @root_dir_for == @file_path
 
         @root_dir_for = @file_path
-        @root_dir = root_dir_from_config
+        @root_dir = gemspec_root_for(@file_path) || RuboCop::ConfigFinder.project_root
       end
 
       private
 
-      def root_dir_from_config
-        config_file = RuboCop::ConfigLoader.configuration_file_for(@file_path)
-        project_root = RuboCop::ConfigFinder.project_root
-        return project_root if config_file == RuboCop::ConfigLoader::DEFAULT_FILE
-        return project_root unless project_config_file?(config_file, project_root)
+      def gemspec_root_for(file_path)
+        Pathname.new(File.dirname(file_path)).expand_path.ascend do |directory|
+          return directory.to_s unless Dir[File.join(directory, "*.gemspec")].empty?
+        end
 
-        config_path = File.expand_path(config_file)
-        return File.dirname(config_path) unless config_path.end_with?("/.config/rubocop/config.yml")
-
-        File.expand_path("../..", File.dirname(config_path))
-      end
-
-      def project_config_file?(config_file, project_root)
-        return false unless config_file
-        return true unless project_root
-
-        config_path = File.expand_path(config_file)
-        project_path = File.expand_path(project_root)
-        config_path == project_path || config_path.start_with?("#{project_path}/")
+        nil
       end
 
       public

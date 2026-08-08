@@ -12,8 +12,7 @@ RSpec.describe RuboCop::Cop::Packaging::RequireRelativeHardcodingLib, :config do
 
     before do
       allow(RuboCop::ConfigFinder).to receive(:project_root).and_return("/workspace/family")
-      allow(RuboCop::ConfigLoader).to receive(:configuration_file_for).with(filename)
-                                  .and_return("#{project_root}/.rubocop.yml")
+      allow_any_instance_of(described_class).to receive(:gemspec_root_for).with(filename).and_return(project_root)
     end
 
     it "uses the nested project's config root" do
