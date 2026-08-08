@@ -5,6 +5,29 @@ RSpec.describe RuboCop::Cop::Packaging::RequireRelativeHardcodingLib, :config do
 
   let(:project_root) { RuboCop::ConfigFinder.project_root }
 
+  context "when the inspected project is nested under RuboCop's project root" do
+    let(:project_root) { "/workspace/family/gem" }
+    let(:filename) { "#{project_root}/exe/tool" }
+    let(:source) { "require_relative '../lib/foo'" }
+
+    before do
+      allow(RuboCop::ConfigFinder).to receive(:project_root).and_return("/workspace/family")
+      allow(RuboCop::ConfigLoader).to receive(:configuration_file_for).with(filename)
+                                  .and_return("#{project_root}/.rubocop.yml")
+    end
+
+    it "uses the nested project's config root" do
+      expect_offense(<<~RUBY, filename)
+        #{source}
+        #{"^" * source.length} #{message}
+      RUBY
+
+      expect_correction(<<~RUBY)
+        require "foo"
+      RUBY
+    end
+  end
+
   context "when `require_relative` call lies outside spec/" do
     let(:filename) { "#{project_root}/spec/foo_spec.rb" }
     let(:source) { "require_relative '../lib/foo.rb'" }

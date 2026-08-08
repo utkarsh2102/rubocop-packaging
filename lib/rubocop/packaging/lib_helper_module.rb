@@ -7,7 +7,11 @@ module RuboCop # :nodoc:
     module LibHelperModule
       # For determining the root directory of the project.
       def root_dir
-        RuboCop::ConfigFinder.project_root
+        # RuboCop's project root is based on the outermost Gemfile. That is
+        # correct for a monorepo invocation, but it is not necessarily the
+        # root for the file currently being inspected. Use the config selected
+        # for this file so nested gems are checked against their own lib/.
+        File.dirname(RuboCop::ConfigLoader.configuration_file_for(@file_path))
       end
 
       # This method determines if the calls are made to the "lib" directory.
