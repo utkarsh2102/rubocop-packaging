@@ -1,5 +1,12 @@
 # frozen_string_literal: true
 
+begin
+  require "simplecov"
+  SimpleCov.enable_coverage :branch
+  SimpleCov.start
+rescue LoadError
+  # No simplecov :-(
+end
 require "rubocop-packaging"
 require "rubocop/rspec/support"
 
