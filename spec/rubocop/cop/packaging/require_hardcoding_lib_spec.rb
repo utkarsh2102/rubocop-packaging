@@ -1,9 +1,15 @@
 # frozen_string_literal: true
 
-RSpec.describe RuboCop::Cop::Packaging::RequireHardcodingLib, :config do
+RSpec.describe RuboCop::Cop::Packaging::RequireHardcodingLib, :isolated_environment, :config do
   let(:message) { RuboCop::Cop::Packaging::RequireHardcodingLib::MSG }
 
-  let(:project_root) { RuboCop::ConfigFinder.project_root }
+  let(:project_root) { Dir.pwd }
+
+  before do
+    # NOTE: Ideally, we would use create_file from RuboCop's FileHelper, but
+    # that tool is not part of RuboCop's exposed test support files.
+    File.write File.expand_path("Gemfile"), ""
+  end
 
   context "when `require` call lies outside spec/" do
     let(:filename) { "#{project_root}/spec/foo_spec.rb" }
@@ -21,7 +27,7 @@ RSpec.describe RuboCop::Cop::Packaging::RequireHardcodingLib, :config do
     end
   end
 
-  context "when `require` call after using `unshift` lies outside spec/" do
+  context "when `require` call after using `unshift` lies outside tests/" do
     let(:filename) { "#{project_root}/tests/foo/bar.rb" }
     let(:source) { <<~RUBY.chomp }
       $:.unshift('../../lib')
@@ -37,6 +43,29 @@ RSpec.describe RuboCop::Cop::Packaging::RequireHardcodingLib, :config do
       expect_correction(<<~RUBY)
         $:.unshift('../../lib')
         require "foo/bar"
+      RUBY
+    end
+  end
+
+  context "when `require` call in nested project points out of test/" do
+    let(:filename) { "#{project_root}/nested/test/bar_test.rb" }
+    let(:source) { <<~RUBY.chomp }
+      require '../lib/bar'
+    RUBY
+
+    before do
+      Dir.mkdir "nested"
+      File.write File.expand_path("nested/Gemfile"), ""
+    end
+
+    it "registers an offense" do
+      expect_offense(<<~RUBY, filename)
+        #{source}
+        #{"^" * source.length} #{message}
+      RUBY
+
+      expect_correction(<<~RUBY)
+        require "bar"
       RUBY
     end
   end
