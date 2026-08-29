@@ -5,9 +5,17 @@ module RuboCop # :nodoc:
     # This helper module extracts the methods which can be used
     # in other cop classes.
     module LibHelperModule
+      include FileFinder
+
       # For determining the root directory of the project.
       def root_dir
-        RuboCop::ConfigFinder.project_root
+        @root_dir ||=
+          begin
+            gemfile =
+              find_file_upwards("Gemfile", @file_directory) ||
+              find_file_upwards("gems.rb", @file_directory)
+            File.dirname(gemfile)
+          end
       end
 
       # This method determines if the calls are made to the "lib" directory.

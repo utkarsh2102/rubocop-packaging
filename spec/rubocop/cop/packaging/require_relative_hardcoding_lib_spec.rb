@@ -1,9 +1,15 @@
 # frozen_string_literal: true
 
-RSpec.describe RuboCop::Cop::Packaging::RequireRelativeHardcodingLib, :config do
+RSpec.describe RuboCop::Cop::Packaging::RequireRelativeHardcodingLib, :isolated_environment, :config do
   let(:message) { RuboCop::Cop::Packaging::RequireRelativeHardcodingLib::MSG }
 
-  let(:project_root) { RuboCop::ConfigFinder.project_root }
+  let(:project_root) { Dir.pwd }
+
+  before do
+    # NOTE: Ideally, we would use create_file from RuboCop's FileHelper, but
+    # that tool is not part of RuboCop's exposed test support files.
+    File.write File.expand_path("Gemfile"), ""
+  end
 
   context "when `require_relative` call lies outside spec/" do
     let(:filename) { "#{project_root}/spec/foo_spec.rb" }
@@ -53,6 +59,27 @@ RSpec.describe RuboCop::Cop::Packaging::RequireRelativeHardcodingLib, :config do
       expect_correction(<<~RUBY)
         require_relative "spec_helper"
         require "rubocop/baz"
+      RUBY
+    end
+  end
+
+  context "when `require_relative` call in nested project points out of test/" do
+    let(:filename) { "#{project_root}/nested/test/bar_test.rb" }
+    let(:source) { "require_relative '../lib/bar'" }
+
+    before do
+      Dir.mkdir "nested"
+      File.write File.expand_path("nested/Gemfile"), ""
+    end
+
+    it "registers an offense" do
+      expect_offense(<<~RUBY, filename)
+        #{source}
+        #{"^" * source.length} #{message}
+      RUBY
+
+      expect_correction(<<~RUBY)
+        require "bar"
       RUBY
     end
   end
