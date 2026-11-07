@@ -13,6 +13,7 @@ projects.
 
 === Department xref:cops_packaging.adoc[Packaging]
 
+* xref:cops_packaging.adoc#packagingbundlerrequireentrypoint[Packaging/BundlerRequireEntrypoint]
 * xref:cops_packaging.adoc#packagingbundlersetupintests[Packaging/BundlerSetupInTests]
 * xref:cops_packaging.adoc#packaginggemspecgit[Packaging/GemspecGit]
 * xref:cops_packaging.adoc#packagingrequirehardcodinglib[Packaging/RequireHardcodingLib]

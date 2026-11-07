@@ -4,6 +4,15 @@ Packaging:
   Enabled: true
   DocumentationBaseURL: https://docs.rubocop.org/rubocop-packaging
 
+Packaging/BundlerRequireEntrypoint:
+  Description: >-
+                 Add a file named after the gem, so that `Bundler.require`
+                 can load it without a `require:` option in the Gemfile.
+  Enabled: pending
+  Include:
+    - '**/*.gemspec'
+  VersionAdded: '0.7'
+
 Packaging/BundlerSetupInTests:
   Description: >-
                  Using `bundler/setup` in tests is redundant. Consider
