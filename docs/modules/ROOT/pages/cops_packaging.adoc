@@ -1,5 +1,62 @@
 = Packaging
 
+== Packaging/BundlerRequireEntrypoint
+
+|===
+| Enabled by default | Safe | Supports autocorrection | VersionAdded | VersionChanged
+
+| Pending
+| Yes
+| No
+| 0.7
+| -
+|===
+
+This cop flags a gemspec whose gem name has no matching file for
+`Bundler.require` to load.
+
+`Bundler.require` loads each gem in the Gemfile by requiring its name,
+and when that fails for a name containing a dash, by requiring the name
+with dashes turned into slashes. If neither file exists, the gem is
+skipped silently, and every application has to add `require:` to its
+Gemfile entry or require the gem by hand.
+
+Add a file at one of those paths that requires the gem's main file.
+
+Gems with native extensions are not checked, since their entrypoint
+may only exist once the extension is compiled.
+
+=== Examples
+
+[source,ruby]
+----
+# bad - foo-bar.gemspec, with only lib/foo_bar.rb
+Gem::Specification.new do |spec|
+  spec.name = "foo-bar"
+end
+
+# good - foo-bar.gemspec, with lib/foo/bar.rb
+#   require "foo_bar"
+Gem::Specification.new do |spec|
+  spec.name = "foo-bar"
+end
+
+# good - foo-bar.gemspec, with lib/foo-bar.rb
+Gem::Specification.new do |spec|
+  spec.name = "foo-bar"
+end
+----
+
+=== Configurable attributes
+
+|===
+| Name | Default value | Configurable values
+
+| Include
+| `+**/*.gemspec+`
+| Array
+|===
+
 == Packaging/BundlerSetupInTests
 
 |===
